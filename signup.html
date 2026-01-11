@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join JACE — Create Your Account</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+    }
+    .container { max-width:1400px; margin:0 auto; padding:0 20px; }
+
+    /* Navbar – same style, but simplified links */
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      padding:1.2rem 0; z-index:100;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(15px);
+      transition:background 0.4s;
+    }
+    header.scrolled { background:rgba(0,0,0,0.9); }
+    nav { display:flex; justify-content:space-between; align-items:center; }
+    .brand-text {
+      font-size:2rem; font-weight:900; letter-spacing:8px;
+      color:#fff; cursor:pointer; transition:color 0.3s;
+    }
+    .brand-text:hover { color:#ddd; }
+    .nav-links a {
+      color:#fff; text-decoration:none; margin-left:2rem;
+      font-size:1.1rem; transition:color 0.3s;
+    }
+    .nav-links a:hover { color:#ddd; }
+    .hamburger { display:none; font-size:2rem; cursor:pointer; color:#fff; }
+    @media (max-width:900px) {
+      .nav-links { display:none; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); flex-direction:column; padding:2rem 0; text-align:center; gap:1.5rem; }
+      .nav-links.active { display:flex; }
+      .hamburger { display:block; }
+      .brand-text { font-size:1.6rem; }
+    }
+
+    /* Signup Section */
+    .signup-section {
+      min-height:100vh;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&fit=crop&crop=faces') center/cover no-repeat;
+      display:flex; align-items:center; justify-content:center;
+      padding:120px 20px 60px;
+    }
+    .signup-form-container {
+      background:rgba(17,17,17,0.85);
+      backdrop-filter:blur(10px);
+      padding:3rem 2.5rem;
+      border-radius:12px;
+      max-width:500px; width:100%;
+      box-shadow:0 20px 50px rgba(0,0,0,0.6);
+      text-align:center;
+    }
+    .signup-form-container h1 { font-size:3rem; margin-bottom:1.5rem; letter-spacing:6px; }
+    .signup-form-container p { font-size:1.2rem; opacity:0.8; margin-bottom:2.5rem; }
+    .form-group { margin-bottom:1.8rem; text-align:left; }
+    .form-group label { display:block; margin-bottom:0.6rem; font-size:1.1rem; opacity:0.9; }
+    .form-group input {
+      width:100%; padding:1rem;
+      background:#222; border:1px solid #444; color:#fff;
+      border-radius:8px; font-size:1.1rem;
+      transition:all 0.3s;
+    }
+    .form-group input:focus {
+      outline:none; border-color:#fff; box-shadow:0 0 12px rgba(255,255,255,0.2);
+    }
+    .submit-btn {
+      background:#fff; color:#000; border:none;
+      padding:1.2rem 3rem; font-size:1.3rem; font-weight:500;
+      border-radius:30px; cursor:pointer; width:100%;
+      transition:all 0.4s; margin-top:1.5rem;
+    }
+    .submit-btn:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(255,255,255,0.2); }
+    .login-link { margin-top:2rem; font-size:1.1rem; opacity:0.8; }
+    .login-link a { color:#fff; text-decoration:underline; transition:color 0.3s; }
+    .login-link a:hover { color:#ddd; }
+
+    /* Responsive */
+    @media (max-width:768px) {
+      .signup-form-container { padding:2.5rem 1.5rem; }
+      .signup-form-container h1 { font-size:2.5rem; }
+      .submit-btn { font-size:1.2rem; padding:1rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand-text" onclick="window.location.href='index.html'">JACE BRAND</div>
+        <div class="hamburger">&#9776;</div>
+        <div class="nav-links">
+          <a href="clothing.html">Shop</a>
+          <a href="about.html">About</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Signup Section -->
+  <section class="signup-section">
+    <div class="signup-form-container">
+      <h1>Join JACE</h1>
+      <p>Create your account to unlock exclusive access and timeless luxury.</p>
+      
+      <form>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Your full name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="your@email.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Create a strong password" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+        </div>
+        
+        <button type="submit" class="submit-btn">Create Account</button>
+      </form>
+      
+      <div class="login-link">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Hamburger Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
+    });
+  </script>
+</body>
+</html>
