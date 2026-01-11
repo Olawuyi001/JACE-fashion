@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JACE Collection</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+    }
+    .container { max-width:1400px; margin:0 auto; padding:0 20px; }
+
+    /* Navbar */
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      padding:1.2rem 0; z-index:100;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(15px);
+      transition:background 0.4s;
+    }
+    header.scrolled { background:rgba(0,0,0,0.9); }
+    nav { display:flex; justify-content:space-between; align-items:center; }
+    .brand-text {
+      font-size:2rem; font-weight:900; letter-spacing:8px;
+      color:#fff; cursor:pointer; transition:color 0.3s;
+    }
+    .brand-text:hover { color:#ddd; }
+    .nav-links a {
+      color:#fff; text-decoration:none; margin-left:2rem;
+      font-size:1.1rem; transition:color 0.3s;
+    }
+    .nav-links a:hover { color:#ddd; }
+    .hamburger { display:none; font-size:2rem; cursor:pointer; color:#fff; }
+    @media (max-width:900px) {
+      .nav-links { display:none; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); flex-direction:column; padding:2rem 0; text-align:center; gap:1.5rem; }
+      .nav-links.active { display:flex; }
+      .hamburger { display:block; }
+      .brand-text { font-size:1.6rem; }
+    }
+
+    /* Hero */
+    .hero {
+      height:60vh; min-height:400px;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&fit=crop&crop=faces') center/cover no-repeat;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; position:relative; padding-top:100px;
+    }
+    .hero h1 { font-size:5rem; font-weight:900; letter-spacing:15px; margin-bottom:20px; }
+    .hero p { font-size:1.8rem; opacity:0.85; max-width:800px; }
+
+    @media (max-width:900px) {
+      .hero { height:50vh; padding-top:80px; }
+      .hero h1 { font-size:3.5rem; letter-spacing:10px; }
+      .hero p { font-size:1.3rem; }
+    }
+
+    /* Sections */
+    .section { padding:100px 0; }
+    h2 { text-align:center; font-size:4rem; margin-bottom:60px; letter-spacing:6px; }
+
+    @media (max-width:900px) {
+      .section { padding:60px 0; }
+      h2 { font-size:3rem; }
+    }
+
+    /* Pinterest-Style Grid */
+    .product-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+      gap:40px;
+    }
+    .product-card {
+      background:#111; border-radius:12px; overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,0.5); transition:transform 0.4s;
+    }
+    .product-card:hover { transform:translateY(-10px); }
+    .product-image { width:100%; height:350px; object-fit:cover; }
+    .product-info { padding:20px; text-align:center; }
+    .product-info h3 { font-size:1.8rem; margin-bottom:10px; }
+    .product-description { font-size:1.1rem; opacity:0.8; margin-bottom:15px; min-height:60px; }
+    .product-price { font-size:1.5rem; font-weight:700; margin-bottom:20px; }
+
+    /* Controls */
+    .controls {
+      display:flex; flex-direction:column; gap:15px; padding:0 20px 25px;
+    }
+    .size-row, .qty-row { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .size-btn {
+      background:transparent; border:1px solid #888; color:#fff;
+      padding:8px 16px; border-radius:30px; font-size:0.9rem;
+      cursor:pointer; transition:all 0.3s;
+    }
+    .size-btn:hover, .size-btn.active { background:#fff; color:#000; box-shadow:0 0 12px rgba(255,255,255,0.3); transform:scale(1.05); }
+    .qty-btn {
+      width:40px; height:40px; border-radius:50%; background:transparent;
+      border:1px solid #888; color:#fff; font-size:1.3rem; cursor:pointer;
+      transition:all 0.3s;
+    }
+    .qty-btn:hover { background:#fff; color:#000; box-shadow:0 0 10px rgba(255,255,255,0.3); }
+    .qty-display { font-size:1.4rem; min-width:50px; text-align:center; background:#222; padding:8px 12px; border-radius:30px; }
+    .add-btn {
+      background:#fff; color:#000; border:none; padding:14px 50px;
+      font-size:1.1rem; border-radius:30px; cursor:pointer;
+      transition:all 0.4s; box-shadow:0 5px 20px rgba(0,0,0,0.5);
+    }
+    .add-btn:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(255,255,255,0.2); }
+    .add-btn.disabled { background:#444; color:#aaa; cursor:not-allowed; }
+
+    /* Closing Write-up */
+    .closing-writeup {
+      text-align:center; padding:80px 0; background:#111;
+      max-width:900px; margin:0 auto;
+    }
+    .closing-writeup h2 { font-size:3.5rem; margin-bottom:30px; letter-spacing:6px; }
+    .closing-writeup p { font-size:1.4rem; line-height:1.8; opacity:0.9; margin-bottom:30px; }
+
+    @media (max-width:900px) {
+      .product-grid { gap:30px; }
+      .product-image { height:280px; }
+      .product-info h3 { font-size:1.6rem; }
+      .product-description { font-size:1rem; min-height:80px; }
+      .product-price { font-size:1.3rem; }
+      .controls { gap:12px; }
+      .size-btn { padding:6px 12px; font-size:0.8rem; }
+      .qty-btn { width:35px; height:35px; font-size:1.2rem; }
+      .add-btn { padding:12px 40px; font-size:1rem; }
+      .closing-writeup h2 { font-size:2.5rem; }
+      .closing-writeup p { font-size:1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar – No "Shop" link -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand-text" onclick="window.location.href='index.html'">JACE BRAND</div>
+        <div class="hamburger">&#9776;</div>
+        <div class="nav-links">
+          <a href="signup.html">Join us</a>
+          <a href="login.html">Login</a>
+          <a href="about.html">About</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Our Collection</h1>
+      <p>Discover timeless pieces crafted with intention and luxury.</p>
+    </div>
+  </section>
+
+  <!-- Blazers (8 items) -->
+  <section class="section">
+    <div class="container">
+      <h2>Blazers</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+          <div class="product-info">
+            <h3>Oversized Blazer</h3>
+            <p class="product-description">Premium wool blend with relaxed fit. Perfect for sophisticated layering.</p>
+            <p class="product-price">$298</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Tailored Blazer">
+          <div class="product-info">
+            <h3>Tailored Blazer</h3>
+            <p class="product-description">Structured silhouette with subtle texture. Ideal for formal elegance.</p>
+            <p class="product-price">$320</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Double-Breasted Blazer">
+          <div class="product-info">
+            <h3>Double-Breasted Blazer</h3>
+            <p class="product-description">Classic design with bold shoulders. Made from sustainable materials.</p>
+            <p class="product-price">$350</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Velvet Blazer">
+          <div class="product-info">
+            <h3>Velvet Blazer</h3>
+            <p class="product-description">Rich velvet finish for evening sophistication. Timeless and luxurious.</p>
+            <p class="product-price">$380</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+    
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+          <div class="product-info">
+            <h3>Oversized Blazer</h3>
+            <p class="product-description">Premium wool blend with relaxed fit. Perfect for sophisticated layering.</p>
+            <p class="product-price">$298</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Tailored Blazer">
+          <div class="product-info">
+            <h3>Tailored Blazer</h3>
+            <p class="product-description">Structured silhouette with subtle texture. Ideal for formal elegance.</p>
+            <p class="product-price">$320</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Double-Breasted Blazer">
+          <div class="product-info">
+            <h3>Double-Breasted Blazer</h3>
+            <p class="product-description">Classic design with bold shoulders. Made from sustainable materials.</p>
+            <p class="product-price">$350</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Velvet Blazer">
+          <div class="product-info">
+            <h3>Velvet Blazer</h3>
+            <p class="product-description">Rich velvet finish for evening sophistication. Timeless and luxurious.</p>
+            <p class="product-price">$380</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+  </section>
+
+  <!-- Sweaters Group (8 items) -->
+  <section class="section">
+    <div class="container">
+      <h2>Sweaters</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+          <div class="product-info">
+            <h3>Oversized Blazer</h3>
+            <p class="product-description">Premium wool blend with relaxed fit. Perfect for sophisticated layering.</p>
+            <p class="product-price">$298</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Tailored Blazer">
+          <div class="product-info">
+            <h3>Tailored Blazer</h3>
+            <p class="product-description">Structured silhouette with subtle texture. Ideal for formal elegance.</p>
+            <p class="product-price">$320</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Double-Breasted Blazer">
+          <div class="product-info">
+            <h3>Double-Breasted Blazer</h3>
+            <p class="product-description">Classic design with bold shoulders. Made from sustainable materials.</p>
+            <p class="product-price">$350</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Velvet Blazer">
+          <div class="product-info">
+            <h3>Velvet Blazer</h3>
+            <p class="product-description">Rich velvet finish for evening sophistication. Timeless and luxurious.</p>
+            <p class="product-price">$380</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+    
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+          <div class="product-info">
+            <h3>Oversized Blazer</h3>
+            <p class="product-description">Premium wool blend with relaxed fit. Perfect for sophisticated layering.</p>
+            <p class="product-price">$298</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Tailored Blazer">
+          <div class="product-info">
+            <h3>Tailored Blazer</h3>
+            <p class="product-description">Structured silhouette with subtle texture. Ideal for formal elegance.</p>
+            <p class="product-price">$320</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Double-Breasted Blazer">
+          <div class="product-info">
+            <h3>Double-Breasted Blazer</h3>
+            <p class="product-description">Classic design with bold shoulders. Made from sustainable materials.</p>
+            <p class="product-price">$350</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Velvet Blazer">
+          <div class="product-info">
+            <h3>Velvet Blazer</h3>
+            <p class="product-description">Rich velvet finish for evening sophistication. Timeless and luxurious.</p>
+            <p class="product-price">$380</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+     
+    </div>
+  </section>
+
+  <!-- Shirts Group (8 items) -->
+  <section class="section">
+    <div class="container">
+      <h2>Shirts</h2>
+     <div class="product-grid">
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+          <div class="product-info">
+            <h3>Oversized Blazer</h3>
+            <p class="product-description">Premium wool blend with relaxed fit. Perfect for sophisticated layering.</p>
+            <p class="product-price">$298</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Tailored Blazer">
+          <div class="product-info">
+            <h3>Tailored Blazer</h3>
+            <p class="product-description">Structured silhouette with subtle texture. Ideal for formal elegance.</p>
+            <p class="product-price">$320</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Double-Breasted Blazer">
+          <div class="product-info">
+            <h3>Double-Breasted Blazer</h3>
+            <p class="product-description">Classic design with bold shoulders. Made from sustainable materials.</p>
+            <p class="product-price">$350</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Velvet Blazer">
+          <div class="product-info">
+            <h3>Velvet Blazer</h3>
+            <p class="product-description">Rich velvet finish for evening sophistication. Timeless and luxurious.</p>
+            <p class="product-price">$380</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+    
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+          <div class="product-info">
+            <h3>Oversized Blazer</h3>
+            <p class="product-description">Premium wool blend with relaxed fit. Perfect for sophisticated layering.</p>
+            <p class="product-price">$298</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Tailored Blazer">
+          <div class="product-info">
+            <h3>Tailored Blazer</h3>
+            <p class="product-description">Structured silhouette with subtle texture. Ideal for formal elegance.</p>
+            <p class="product-price">$320</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Double-Breasted Blazer">
+          <div class="product-info">
+            <h3>Double-Breasted Blazer</h3>
+            <p class="product-description">Classic design with bold shoulders. Made from sustainable materials.</p>
+            <p class="product-price">$350</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Velvet Blazer">
+          <div class="product-info">
+            <h3>Velvet Blazer</h3>
+            <p class="product-description">Rich velvet finish for evening sophistication. Timeless and luxurious.</p>
+            <p class="product-price">$380</p>
+          </div>
+          <div class="controls">
+            <div class="size-row">
+              <button class="size-btn">XS</button>
+              <button class="size-btn">S</button>
+              <button class="size-btn">M</button>
+              <button class="size-btn">L</button>
+              <button class="size-btn">XL</button>
+            </div>
+            <div class="qty-row">
+              <button class="qty-btn">-</button>
+              <span class="qty-display">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+            <button class="add-btn disabled">Login to Add</button>
+          </div>
+     
+    </div>
+  </section>
+
+  <!-- Closing Write-up -->
+  <section class="closing-writeup">
+    <h2>Timeless Craftsmanship</h2>
+    <p>Every piece in the JACE collection is designed with intention, using the finest materials and ethical practices. We believe in fewer, better choices — garments that last a lifetime and tell your story. From the tailored blazer to the cozy cashmere sweater, each item reflects our commitment to quality, sustainability, and timeless style. Made in Nigeria with global soul.</p>
+    <p>Join the JACE circle and experience luxury that endures.</p>
+  </section>
+
+  <script>
+    // Hamburger Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
+    });
+
+    // Size & Quantity Logic
+    document.querySelectorAll('.product-card').forEach(card => {
+      const sizes = card.querySelectorAll('.size-btn');
+      const qtyDisplay = card.querySelector('.qty-display');
+      let qty = 1;
+
+      sizes.forEach(btn => {
+        btn.onclick = () => {
+          sizes.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        };
+      });
+
+      card.querySelectorAll('.qty-btn').forEach(b => {
+        b.onclick = () => {
+          if (b.textContent === '+') qty++;
+          if (b.textContent === '-' && qty > 1) qty--;
+          qtyDisplay.textContent = qty;
+        };
+      });
+
+      card.querySelector('.add-btn').onclick = () => {
+        alert("Please login or join us to add items to cart.");
+      };
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About JACE — Timeless Luxury</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+    }
+    .container { max-width:1400px; margin:0 auto; padding:0 20px; }
+
+    /* Navbar – same as other pages */
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      padding:1.2rem 0; z-index:100;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(15px);
+      transition:background 0.4s;
+    }
+    header.scrolled { background:rgba(0,0,0,0.9); }
+    nav { display:flex; justify-content:space-between; align-items:center; }
+    .brand-text {
+      font-size:2rem; font-weight:900; letter-spacing:8px;
+      color:#fff; cursor:pointer; transition:color 0.3s;
+    }
+    .brand-text:hover { color:#ddd; }
+    .nav-links a {
+      color:#fff; text-decoration:none; margin-left:2rem;
+      font-size:1.1rem; transition:color 0.3s;
+    }
+    .nav-links a:hover { color:#ddd; }
+    .hamburger { display:none; font-size:2rem; cursor:pointer; color:#fff; }
+    @media (max-width:900px) {
+      .nav-links { display:none; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); flex-direction:column; padding:2rem 0; text-align:center; gap:1.5rem; }
+      .nav-links.active { display:flex; }
+      .hamburger { display:block; }
+      .brand-text { font-size:1.6rem; }
+    }
+
+    /* Hero */
+    .hero {
+      height:70vh; min-height:500px;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&fit=crop&crop=faces') center/cover no-repeat;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; position:relative; padding-top:100px;
+    }
+    .hero h1 { font-size:5rem; font-weight:900; letter-spacing:15px; margin-bottom:20px; }
+    .hero p { font-size:1.8rem; opacity:0.85; max-width:900px; }
+
+    @media (max-width:900px) {
+      .hero { height:60vh; padding-top:80px; }
+      .hero h1 { font-size:3.5rem; letter-spacing:10px; }
+      .hero p { font-size:1.3rem; }
+    }
+
+    /* About Content */
+    .about-section {
+      padding:120px 0;
+      background:#111;
+    }
+    .about-content {
+      max-width:1000px; margin:0 auto; text-align:center;
+    }
+    .about-content h2 {
+      font-size:4rem; margin-bottom:40px; letter-spacing:6px;
+    }
+    .about-content p {
+      font-size:1.4rem; line-height:1.8; opacity:0.9; margin-bottom:40px;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      padding:120px 0;
+      background:#000;
+      text-align:center;
+    }
+    .contact-form-container {
+      max-width:600px; margin:0 auto 60px;
+    }
+    .contact-form-container h2 { font-size:3.5rem; margin-bottom:40px; }
+    .form-group {
+      margin-bottom:1.8rem; text-align:left;
+    }
+    .form-group label {
+      display:block; margin-bottom:0.6rem; font-size:1.1rem; opacity:0.9;
+    }
+    .form-group input, .form-group textarea {
+      width:100%; padding:1rem;
+      background:#222; border:1px solid #444; color:#fff;
+      border-radius:8px; font-size:1.1rem;
+      transition:all 0.3s;
+    }
+    .form-group textarea { min-height:150px; resize:vertical; }
+    .form-group input:focus, .form-group textarea:focus {
+      outline:none; border-color:#fff; box-shadow:0 0 12px rgba(255,255,255,0.2);
+    }
+    .submit-btn {
+      background:#fff; color:#000; border:none;
+      padding:1.2rem 3rem; font-size:1.3rem; font-weight:500;
+      border-radius:30px; cursor:pointer; width:100%;
+      transition:all 0.4s;
+    }
+    .submit-btn:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(255,255,255,0.2); }
+
+    .contact-info {
+      font-size:1.2rem; opacity:0.8;
+    }
+    .contact-info p { margin:1rem 0; }
+
+    /* Social Media */
+    .social-section {
+      padding:80px 0;
+      background:#111;
+      text-align:center;
+    }
+    .social-section h3 { font-size:2.5rem; margin-bottom:40px; letter-spacing:4px; }
+    .social-icons {
+      display:flex; justify-content:center; gap:2rem;
+    }
+    .social-icons a {
+      color:#fff; font-size:2.5rem; transition:transform 0.3s, color 0.3s;
+    }
+    .social-icons a:hover {
+      transform:scale(1.2);
+      color:#ddd;
+    }
+
+    /* Responsive */
+    @media (max-width:900px) {
+      .about-section, .contact-section, .social-section { padding:80px 0; }
+      .about-content h2, .contact-form-container h2 { font-size:3rem; }
+      .social-icons a { font-size:2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar – JACE BRAND links to home, no Join us/Login -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand-text" onclick="window.location.href='index.html'">JACE BRAND</div>
+        <div class="hamburger">&#9776;</div>
+        <div class="nav-links">
+            <a href="signup.html">Join us</a>
+            <a href="login.html">Login</a>
+            <a href="clothing.html">Collection</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>About JACE</h1>
+      <p>The art of fewer, better choices.</p>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-content">
+        <h2>Our Story</h2>
+        <p>JACE was born from a simple belief: true luxury is not in excess, but in intention. We craft timeless pieces that transcend trends — garments designed to be worn for years, not seasons.</p>
+        <p>Rooted in Nigeria, with a global soul, every collection is made with conscious craftsmanship, sustainable materials, and uncompromising quality. We believe in fewer choices, but better ones — pieces that become part of your story.</p>
+        <p>From the oversized blazer to the cashmere sweater, each item reflects our commitment to elegance, ethics, and endurance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-form-container">
+        <h2>Contact Us</h2>
+        <p>For inquiries, collaborations, or custom orders, reach out to us.</p>
+        
+        <form>
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" placeholder="Tell us how we can help..." required></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-info">
+        <p>Email: hello@jacebrand.com</p>
+        <p>Phone: +234 123 456 7890</p>
+        <p>Mon - Fri: 9AM - 6PM (WAT)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Media -->
+ <!-- Social Media – Small Icons -->
+<section class="social-section" style="padding:80px 0; text-align:center;">
+  <div class="container">
+    <h3 style="font-size:2.2rem; margin-bottom:40px; letter-spacing:4px;">Follow JACE</h3>
+    <div style="display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;">
+      <a href="https://instagram.com/jacebrand" target="_blank" style="color:#fff; transition:transform 0.3s;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:32px; height:32px; filter:brightness(0) invert(1);">
+      </a>
+      <a href="https://wa.me/2341234567890" target="_blank" style="color:#fff; transition:transform 0.3s;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:32px; height:32px; filter:brightness(0) invert(1);">
+      </a>
+      <a href="https://facebook.com/jacebrand" target="_blank" style="color:#fff; transition:transform 0.3s;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width:32px; height:32px; filter:brightness(0) invert(1);">
+      </a>
+      <a href="https://x.com/jacebrand" target="_blank" style="color:#fff; transition:transform 0.3s;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" style="width:32px; height:32px; filter:brightness(0) invert(1);">
+      </a>
+    </div>
+  </div>
+</section>
+
+  <script>
+    // Hamburger Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
+    });
+  </script>
+</body>
+</html>
