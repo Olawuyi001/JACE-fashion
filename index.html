@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JACE — Luxury Redefined</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+    }
+    .container { max-width:1400px; margin:0 auto; padding:0 20px; }
+
+    /* Navbar – fixed, semi-transparent */
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      padding:30px 0; z-index:100;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(15px);
+      transition:background 0.4s;
+    }
+    header.scrolled { background:rgba(0,0,0,0.9); }
+    nav { display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-size:3rem; font-weight:900; letter-spacing:12px; display:flex; align-items:center; }
+    .nav-links a {
+      color:#fff; text-decoration:none; margin-left:50px;
+      font-size:1.2rem; transition:color 0.3s;
+    }
+    .nav-links a:hover { color:#ddd; }
+    .hamburger { display:none; font-size:2.8rem; cursor:pointer; color:#fff; }
+    @media (max-width:768px) {
+      .nav-links { display:none; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); flex-direction:column; padding:30px 0; }
+      .nav-links.active { display:flex; }
+      .nav-links a { margin:20px 0; text-align:center; margin-left:0; }
+      .hamburger { display:block; }
+    }
+
+    /* Hero – pushed down to avoid navbar overlap */
+    .hero {
+      height:100vh; min-height:900px; /* extra height to push content down */
+      padding-top:150px; /* main fix: push everything down below navbar */
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&fit=crop&crop=faces') center/cover no-repeat;
+      display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+      text-align:center; position:relative;
+    }
+    .hero-content { position:relative; z-index:2; margin-top:80px; } /* extra margin for breathing room */
+    .hero-logo {
+      width:180px; height:auto; margin-bottom:40px; /* increased bottom margin */
+      filter: drop-shadow(0 10px 30px rgba(255,255,255,0.3));
+      transition:transform 0.6s ease;
+    }
+    .hero-logo:hover { transform:scale(1.05); }
+    .hero h1 { font-size:9rem; font-weight:900; letter-spacing:25px; margin-bottom:30px; }
+    .hero p { font-size:2.2rem; opacity:0.85; margin-bottom:60px; max-width:900px; }
+    .enter-btn {
+      background:#fff; color:#000; padding:20px 80px;
+      text-decoration:none; font-size:1.6rem; font-weight:500;
+      border-radius:0; transition:all 0.4s ease;
+    }
+    .enter-btn:hover { background:#ddd; transform:scale(1.05); box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+
+    /* Sections */
+    .section { padding:160px 0; }
+    h2 { text-align:center; font-size:4.5rem; margin-bottom:80px; letter-spacing:6px; }
+
+    /* New Arrivals – 1 visible, swipe through 4 */
+    .products-carousel { position:relative; overflow:hidden; }
+    .products-slides {
+      display:flex;
+      transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .product-card {
+      min-width:100%; padding:0 20px; text-align:center;
+    }
+    .product-image {
+      width:100%; height:480px; object-fit:cover; border-radius:12px;
+      transition:transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    .product-card:active .product-image,
+    .product-card:hover .product-image { 
+      transform:scale(1.05); 
+      box-shadow:0 20px 40px rgba(0,0,0,0.6); 
+    }
+    .product-info { margin:25px 0 20px; }
+    .product-info h3 { font-size:2rem; margin-bottom:10px; }
+    .product-info p { font-size:1.5rem; opacity:0.9; }
+
+    /* Size & Quantity */
+    .controls {
+      display:flex; flex-direction:column; gap:20px; padding:0 20px 30px;
+    }
+    .size-row { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+    .size-btn {
+      background:transparent; border:1px solid #888; color:#fff;
+      padding:10px 18px; border-radius:30px; font-size:1rem;
+      cursor:pointer; transition:all 0.3s;
+    }
+    .size-btn:hover, .size-btn.active {
+      background:#fff; color:#000; box-shadow:0 0 15px rgba(255,255,255,0.4); transform:scale(1.08);
+    }
+    .qty-row { display:flex; justify-content:center; gap:15px; align-items:center; }
+    .qty-btn {
+      width:42px; height:42px; border-radius:50%; background:transparent;
+      border:1px solid #888; color:#fff; font-size:1.4rem; cursor:pointer;
+      transition:all 0.3s;
+    }
+    .qty-btn:hover { background:#fff; color:#000; box-shadow:0 0 12px rgba(255,255,255,0.3); }
+    .qty-display {
+      font-size:1.5rem; min-width:60px; text-align:center;
+      background:#222; padding:10px 15px; border-radius:30px;
+    }
+    .add-btn {
+      background:#fff; color:#000; border:none; padding:16px 60px;
+      font-size:1.2rem; border-radius:30px; cursor:pointer;
+      transition:all 0.4s; box-shadow:0 5px 20px rgba(0,0,0,0.5);
+    }
+    .add-btn:hover { transform:translateY(-3px); box-shadow:0 15px 35px rgba(255,255,255,0.2); }
+    .add-btn.disabled { background:#444; color:#aaa; cursor:not-allowed; }
+
+    /* Swipe hint & arrows */
+    .swipe-hint {
+      text-align:center; margin-top:20px; font-size:1.1rem; opacity:0.7;
+      display:none;
+    }
+    @media (max-width:768px) { .swipe-hint { display:block; } }
+    .carousel-prev, .carousel-next {
+      position:absolute; top:50%; transform:translateY(-50%);
+      background:rgba(0,0,0,0.6); color:#fff; border:none;
+      width:50px; height:50px; border-radius:50%; cursor:pointer;
+      font-size:1.8rem; transition:all 0.3s; z-index:10;
+    }
+    .carousel-prev:hover, .carousel-next:hover { background:rgba(255,255,255,0.3); }
+    .carousel-prev { left:15px; }
+    .carousel-next { right:15px; }
+
+    /* Brand Philosophy */
+    .philosophy { background:#111; text-align:center; padding:160px 0; }
+    .philosophy .btn {
+      display:inline-block; padding:18px 60px; background:#fff; color:#000;
+      text-decoration:none; font-size:1.4rem; transition:all 0.4s;
+    }
+    .philosophy .btn:hover { background:#ddd; transform:scale(1.05); }
+
+    /* Winter Edit Banner */
+    .banner {
+      height:80vh; min-height:600px;
+      background:url('https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=1600&fit=crop') center/cover;
+      position:relative;
+    }
+    .banner-overlay {
+      position:absolute; inset:0; background:rgba(0,0,0,0.55);
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding:0 20px;
+    }
+    .banner h2 { font-size:5rem; margin-bottom:20px; }
+    .banner p { font-size:2rem; margin-bottom:40px; max-width:800px; }
+    .banner .btn {
+      background:#fff; color:#000; padding:18px 60px;
+      text-decoration:none; font-size:1.4rem; transition:all 0.4s;
+    }
+    .banner .btn:hover { background:#ddd; transform:scale(1.05); }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <img src="images/JACE BRAND.png" alt="JACE Logo" style="width:120px; height:auto;">
+        </div>
+        <div class="hamburger">&#9776;</div>
+        <div class="nav-links">
+          <a href="signup.html">Join us</a>
+          <a href="login.html">Login</a>
+          <a href="clothing.html">Shop</a>
+          <a href="about.html">About</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <img src="images/JACE BRAND.png" alt="JACE Logo" class="hero-logo">
+      <h1>JACE</h1>
+      <p>Elevate Your Wardrobe with Timeless Luxury</p>
+      <a href="clothing.html" class="enter-btn">Enter Collection</a>
+    </div>
+  </section>
+
+  <!-- New Arrivals – 1 visible, swipe through 4 -->
+  <section class="section">
+    <div class="container">
+      <h2>New Arrivals</h2>
+      <div class="products-carousel">
+        <div class="products-slides">
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200" alt="Oversized Blazer">
+            <div class="product-info">
+              <h3>Oversized Blazer</h3>
+              <p>$298</p>
+            </div>
+            <div class="controls">
+              <div class="size-row">
+                <button class="size-btn">XS</button>
+                <button class="size-btn">S</button>
+                <button class="size-btn">M</button>
+                <button class="size-btn">L</button>
+                <button class="size-btn">XL</button>
+              </div>
+              <div class="qty-row">
+                <button class="qty-btn">-</button>
+                <span class="qty-display">1</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <button class="add-btn disabled">Login to Add</button>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=1200" alt="Cashmere Sweater">
+            <div class="product-info">
+              <h3>Cashmere Sweater</h3>
+              <p>$159</p>
+            </div>
+            <div class="controls">
+              <div class="size-row">
+                <button class="size-btn">XS</button>
+                <button class="size-btn">S</button>
+                <button class="size-btn">M</button>
+                <button class="size-btn">L</button>
+                <button class="size-btn">XL</button>
+              </div>
+              <div class="qty-row">
+                <button class="qty-btn">-</button>
+                <span class="qty-display">1</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <button class="add-btn disabled">Login to Add</button>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=1200" alt="Wide Leg Trousers">
+            <div class="product-info">
+              <h3>Wide Leg Trousers</h3>
+              <p>$198</p>
+            </div>
+            <div class="controls">
+              <div class="size-row">
+                <button class="size-btn">XS</button>
+                <button class="size-btn">S</button>
+                <button class="size-btn">M</button>
+                <button class="size-btn">L</button>
+                <button class="size-btn">XL</button>
+              </div>
+              <div class="qty-row">
+                <button class="qty-btn">-</button>
+                <span class="qty-display">1</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <button class="add-btn disabled">Login to Add</button>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=1200" alt="Wool Coat">
+            <div class="product-info">
+              <h3>Wool Coat</h3>
+              <p>$449</p>
+            </div>
+            <div class="controls">
+              <div class="size-row">
+                <button class="size-btn">XS</button>
+                <button class="size-btn">S</button>
+                <button class="size-btn">M</button>
+                <button class="size-btn">L</button>
+                <button class="size-btn">XL</button>
+              </div>
+              <div class="qty-row">
+                <button class="qty-btn">-</button>
+                <span class="qty-display">1</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <button class="add-btn disabled">Login to Add</button>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-prev">❮</button>
+        <button class="carousel-next">❯</button>
+        <div class="swipe-hint">Swipe left or right to see more</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand Philosophy -->
+  <section class="section philosophy">
+    <div class="container">
+      <h2>The Art of Fewer, Better Choices</h2>
+      <p>Timeless pieces. Conscious craftsmanship. Made in Nigeria.</p>
+      <a href="about.html" class="btn" style="margin-top:40px; display:inline-block; padding:18px 60px; background:#fff; color:#000; text-decoration:none; font-size:1.4rem; transition:all 0.4s;">Discover Our Story</a>
+    </div>
+  </section>
+
+  <!-- Winter Edit Banner -->
+  <section class="banner">
+    <div class="banner-overlay">
+      <h2>Winter Edit</h2>
+      <p style="font-size:2rem; margin:20px 0 40px; max-width:800px;">Layered luxury. Sustainable warmth. Timeless silhouettes.</p>
+      <a href="clothing.html" class="btn">Shop Collection</a>
+    </div>
+  </section>
+
+  <!-- Best Sellers -->
+  <section class="section">
+    <div class="container">
+      <h2>Best Sellers</h2>
+      <div class="products-carousel">
+        <div class="products-slides">
+          <!-- Duplicate the 4 product cards here with different images -->
+        </div>
+        <button class="carousel-prev">❮</button>
+        <button class="carousel-next">❯</button>
+        <div class="swipe-hint">Swipe left or right to see more</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Values -->
+  <section class="section values">
+    <div class="container">
+      <h2>Our Values</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:60px;text-align:center;">
+        <div><div style="font-size:5rem;margin-bottom:20px;">🌿</div><h3>Conscious Craft</h3><p>Eco-friendly & ethical.</p></div>
+        <div><div style="font-size:5rem;margin-bottom:20px;">∞</div><h3>Timeless</h3><p>Designed to endure.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter section">
+    <div class="container">
+      <h2>Join the JACE Circle</h2>
+      <p style="font-size:1.6rem;margin-bottom:40px;">15% off first order + exclusive updates</p>
+      <form style="max-width:600px;margin:0 auto;display:flex;gap:10px;">
+        <input type="email" placeholder="Your email" required style="flex:1;padding:15px;font-size:1.2rem;border:1px solid #444;background:#222;color:#fff;">
+        <button type="submit" style="background:#fff;color:#000;border:none;padding:15px 40px;font-size:1.2rem;cursor:pointer;">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="logo"><span class="spade">♠</span> JACE</div>
+      <div style="margin:30px 0;">
+        <a href="clothing.html" style="color:#aaa;margin:0 20px;text-decoration:none;">Shop</a>
+        <a href="about.html" style="color:#aaa;margin:0 20px;text-decoration:none;">About</a>
+        <a href="#" style="color:#aaa;margin:0 20px;text-decoration:none;">Contact</a>
+      </div>
+      <p>Made in Nigeria with intention © 2026 JACE</p>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
+    });
+
+    // New Arrivals Carousel (1 item visible, swipe through 4)
+    const carousel = document.querySelector('.products-carousel');
+    const slides = carousel.querySelector('.products-slides');
+    const prev = carousel.querySelector('.carousel-prev');
+    const next = carousel.querySelector('.carousel-next');
+    let current = 0;
+
+    function move() {
+      slides.style.transform = `translateX(-${current * 100}%)`;
+    }
+
+    prev.onclick = () => { if (current > 0) current--; move(); };
+    next.onclick = () => { if (current < 3) current++; move(); }; // 4 items = max index 3
+
+    // Touch swipe
+    let ts = 0, te = 0;
+    carousel.addEventListener('touchstart', e => ts = e.changedTouches[0].screenX, {passive:true});
+    carousel.addEventListener('touchend', e => {
+      te = e.changedTouches[0].screenX;
+      if (ts - te > 60 && current < 3) current++;
+      if (te - ts > 60 && current > 0) current--;
+      move();
+    }, {passive:true});
+
+    // Add to Cart – disabled until login
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.onclick = () => {
+        alert("Please login or join us to add items to cart.");
+      };
+    });
+  </script>
+</body>
+</html>
