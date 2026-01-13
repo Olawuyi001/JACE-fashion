@@ -186,7 +186,6 @@
         <div class="hamburger">&#9776;</div>
         <div class="nav-links">
           <a href="signup.html">Join us</a>
-            <a href="clothing.html">Shop</a>
           <a href="login.html">Login</a>
           <a href="about.html">About</a>
         </div>
@@ -210,6 +209,7 @@
       <h2>New Arrivals</h2>
       <div class="products-carousel">
         <div class="products-slides">
+          <!-- Product 1 -->
           <div class="product-card">
             <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200" alt="Oversized Blazer">
             <div class="product-info">
@@ -233,6 +233,7 @@
             </div>
           </div>
 
+          <!-- Product 2 -->
           <div class="product-card">
             <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=1200" alt="Cashmere Sweater">
             <div class="product-info">
@@ -256,6 +257,7 @@
             </div>
           </div>
 
+          <!-- Product 3 -->
           <div class="product-card">
             <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=1200" alt="Wide Leg Trousers">
             <div class="product-info">
@@ -279,6 +281,7 @@
             </div>
           </div>
 
+          <!-- Product 4 -->
           <div class="product-card">
             <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=1200" alt="Wool Coat">
             <div class="product-info">
@@ -522,11 +525,23 @@
       move();
     }, {passive:true});
 
-    // Quantity & Add to Cart Logic
+    // Quantity & Add to Cart Logic – Must select size first
     document.querySelectorAll('.product-card').forEach(card => {
+      const sizes = card.querySelectorAll('.size-btn');
       const qtyDisplay = card.querySelector('.qty-display');
       let qty = 1;
+      let selectedSize = null;
 
+      // Size selection
+      sizes.forEach(btn => {
+        btn.onclick = () => {
+          sizes.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedSize = btn.textContent;
+        };
+      });
+
+      // Quantity adjustment
       card.querySelectorAll('.qty-btn').forEach(b => {
         b.onclick = () => {
           if (b.textContent === '+') {
@@ -539,8 +554,13 @@
         };
       });
 
+      // Add to Cart – Check size first, then redirect to login
       card.querySelector('.add-btn').onclick = () => {
-        window.location.href = "login.html";  // Direct redirect to login page
+        if (!selectedSize) {
+          alert("Please select a size first before adding to cart.");
+          return;
+        }
+        window.location.href = "login.html";  // Direct redirect to login
       };
     });
   </script>
