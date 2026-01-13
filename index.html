@@ -19,10 +19,10 @@
     }
     .container { max-width:1400px; margin:0 auto; padding:0 20px; }
 
-    /* Navbar – Small & Clean */
+    /* Navbar */
     header {
       position:fixed; top:0; left:0; width:100%;
-      padding:1rem 0; z-index:100;
+      padding:1.2rem 0; z-index:100;
       background:rgba(0,0,0,0.6);
       backdrop-filter:blur(15px);
       transition:background 0.4s;
@@ -31,8 +31,9 @@
     nav { display:flex; justify-content:space-between; align-items:center; }
     .brand-text {
       font-size:2rem; font-weight:900; letter-spacing:8px;
-      color:#fff;
+      color:#fff; cursor:pointer; transition:color 0.3s;
     }
+    .brand-text:hover { color:#ddd; }
     .nav-links a {
       color:#fff; text-decoration:none; margin-left:2rem;
       font-size:1.1rem; transition:color 0.3s;
@@ -51,7 +52,7 @@
       height:100vh; min-height:800px;
       background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
                   url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&fit=crop&crop=faces') center/cover no-repeat;
-      display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
       text-align:center; position:relative; padding-top:140px;
     }
     .hero-content { position:relative; z-index:2; margin-top:60px; }
@@ -88,7 +89,7 @@
       h2 { font-size:3rem; }
     }
 
-    /* New Arrivals & Best Sellers – 1 visible, swipe through 4 */
+    /* Carousel */
     .products-carousel { position:relative; overflow:hidden; }
     .products-slides {
       display:flex;
@@ -110,7 +111,6 @@
     .product-info h3 { font-size:2rem; margin-bottom:10px; }
     .product-info p { font-size:1.5rem; opacity:0.9; }
 
-    /* Controls */
     .controls {
       display:flex; flex-direction:column; gap:20px; padding:0 20px 30px;
     }
@@ -140,7 +140,6 @@
       transition:all 0.4s; box-shadow:0 5px 20px rgba(0,0,0,0.5);
     }
     .add-btn:hover { transform:translateY(-3px); box-shadow:0 15px 35px rgba(255,255,255,0.2); }
-    .add-btn.disabled { background:#444; color:#aaa; cursor:not-allowed; }
 
     /* Swipe hint & arrows */
     .swipe-hint {
@@ -157,22 +156,38 @@
     .carousel-prev:hover, .carousel-next:hover { background:rgba(255,255,255,0.3); }
     .carousel-prev { left:15px; }
     .carousel-next { right:15px; }
+
+    /* Footer Social Icons */
+    .footer-social {
+      padding:60px 0 20px; text-align:center;
+    }
+    .footer-social h3 {
+      font-size:1.8rem; margin-bottom:30px; opacity:0.8;
+    }
+    .social-icons {
+      display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;
+    }
+    .social-icons a img {
+      width:32px; height:32px; filter:brightness(0) invert(1);
+      transition:transform 0.3s;
+    }
+    .social-icons a:hover img {
+      transform:scale(1.2);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navbar – Now with "JACE BRAND" text only -->
+  <!-- Navbar -->
   <header>
     <div class="container">
       <nav>
-        <div class="logo">
-          JACE BRAND
-        </div>
+        <div class="brand-text" onclick="window.location.href='index.html'">JACE BRAND</div>
         <div class="hamburger">&#9776;</div>
         <div class="nav-links">
           <a href="signup.html">Join us</a>
+            <a href="clothing.html">Shop</a>
           <a href="login.html">Login</a>
-          <a href="clothing.html">Shop</a>
           <a href="about.html">About</a>
         </div>
       </nav>
@@ -189,7 +204,7 @@
     </div>
   </section>
 
-  <!-- New Arrivals – 1 visible, swipe through 4 -->
+  <!-- New Arrivals -->
   <section class="section">
     <div class="container">
       <h2>New Arrivals</h2>
@@ -214,7 +229,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
 
@@ -237,7 +252,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
 
@@ -260,7 +275,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
 
@@ -283,7 +298,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
         </div>
@@ -312,7 +327,7 @@
     </div>
   </section>
 
-  <!-- Best Sellers – Identical to New Arrivals -->
+  <!-- Best Sellers – Now fully filled with 4 items -->
   <section class="section">
     <div class="container">
       <h2>Best Sellers</h2>
@@ -337,7 +352,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
 
@@ -360,7 +375,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
 
@@ -383,7 +398,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
 
@@ -406,7 +421,7 @@
                 <span class="qty-display">1</span>
                 <button class="qty-btn">+</button>
               </div>
-              <button class="add-btn disabled">Login to Add</button>
+              <button class="add-btn">Add to Cart</button>
             </div>
           </div>
         </div>
@@ -450,32 +465,26 @@
         <a href="#" style="color:#aaa;margin:0 20px;text-decoration:none;">Contact</a>
       </div>
       <p>Made in Nigeria with intention © 2026 JACE</p>
+
+      <!-- Social Media Icons -->
+      <div class="footer-social">
+        <h3>Follow JACE</h3>
+        <div class="social-icons">
+          <a href="https://instagram.com/jacebrand" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+          </a>
+          <a href="https://wa.me/2341234567890" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+          </a>
+          <a href="https://facebook.com/jacebrand" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+          </a>
+          <a href="https://x.com/jacebrand" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X">
+          </a>
+        </div>
+      </div>
     </div>
-    <!-- Social Media Icons – Small & Elegant -->
-<div style="padding:60px 0 20px; text-align:center;">
-  <h3 style="font-size:1.8rem; margin-bottom:30px; opacity:0.8;">Follow JACE</h3>
-  <div style="display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;">
-    <!-- Instagram -->
-    <a href="https://instagram.com/jacebrand" target="_blank" style="color:#fff; font-size:2rem; transition:transform 0.3s, color 0.3s;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:32px; height:32px; filter:brightness(0) invert(1);">
-    </a>
-
-    <!-- WhatsApp -->
-    <a href="https://wa.me/2341234567890" target="_blank" style="color:#fff; font-size:2rem; transition:transform 0.3s, color 0.3s;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:32px; height:32px; filter:brightness(0) invert(1);">
-    </a>
-
-    <!-- Facebook -->
-    <a href="https://facebook.com/jacebrand" target="_blank" style="color:#fff; font-size:2rem; transition:transform 0.3s, color 0.3s;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width:32px; height:32px; filter:brightness(0) invert(1);">
-    </a>
-
-    <!-- X (Twitter) -->
-    <a href="https://x.com/jacebrand" target="_blank" style="color:#fff; font-size:2rem; transition:transform 0.3s, color 0.3s;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" style="width:32px; height:32px; filter:brightness(0) invert(1);">
-    </a>
-  </div>
-</div>
   </footer>
 
   <script>
@@ -489,35 +498,49 @@
       document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
     });
 
-    // Carousel for New Arrivals & Best Sellers (1 item visible, swipe through 4)
-    document.querySelectorAll('.products-carousel').forEach(carousel => {
-      const slides = carousel.querySelector('.products-slides');
-      const prev = carousel.querySelector('.carousel-prev');
-      const next = carousel.querySelector('.carousel-next');
-      let current = 0;
+    // Carousel Logic
+    const carousel = document.querySelector('.products-carousel');
+    const slides = carousel.querySelector('.products-slides');
+    const prev = carousel.querySelector('.carousel-prev');
+    const next = carousel.querySelector('.carousel-next');
+    let current = 0;
 
-      function move() {
-        slides.style.transform = `translateX(-${current * 100}%)`;
-      }
+    function move() {
+      slides.style.transform = `translateX(-${current * 100}%)`;
+    }
 
-      prev.onclick = () => { if (current > 0) current--; move(); };
-      next.onclick = () => { if (current < 3) current++; move(); }; // 4 items = max index 3
+    prev.onclick = () => { if (current > 0) current--; move(); };
+    next.onclick = () => { if (current < 3) current++; move(); };
 
-      // Touch swipe
-      let ts = 0, te = 0;
-      carousel.addEventListener('touchstart', e => ts = e.changedTouches[0].screenX, {passive:true});
-      carousel.addEventListener('touchend', e => {
-        te = e.changedTouches[0].screenX;
-        if (ts - te > 60 && current < 3) current++;
-        if (te - ts > 60 && current > 0) current--;
-        move();
-      }, {passive:true});
-    });
+    // Touch swipe
+    let ts = 0, te = 0;
+    carousel.addEventListener('touchstart', e => ts = e.changedTouches[0].screenX, {passive:true});
+    carousel.addEventListener('touchend', e => {
+      te = e.changedTouches[0].screenX;
+      if (ts - te > 60 && current < 3) current++;
+      if (te - ts > 60 && current > 0) current--;
+      move();
+    }, {passive:true});
 
-    // Add to Cart – disabled until login
-    document.querySelectorAll('.add-btn').forEach(btn => {
-      btn.onclick = () => {
-        alert("Please login or join us to add items to cart.");
+    // Quantity & Add to Cart Logic
+    document.querySelectorAll('.product-card').forEach(card => {
+      const qtyDisplay = card.querySelector('.qty-display');
+      let qty = 1;
+
+      card.querySelectorAll('.qty-btn').forEach(b => {
+        b.onclick = () => {
+          if (b.textContent === '+') {
+            qty++;
+          }
+          if (b.textContent === '-' && qty > 1) {
+            qty--;
+          }
+          qtyDisplay.textContent = qty;
+        };
+      });
+
+      card.querySelector('.add-btn').onclick = () => {
+        window.location.href = "login.html";  // Direct redirect to login page
       };
     });
   </script>
