@@ -63,7 +63,7 @@
       font-size:1rem; opacity:0.8; margin-bottom:35px; max-width:680px;
     }
 
-    .enter-btn, .unlock-btn, .subscribe-btn {
+    .enter-btn, .unlock-btn, .subscribe-btn, .book-btn {
       display: inline-block;
       background: #fff;
       color: #000;
@@ -77,7 +77,7 @@
       cursor: pointer;
       border: none;
     }
-    .enter-btn:hover, .unlock-btn:hover, .subscribe-btn:hover {
+    .enter-btn:hover, .unlock-btn:hover, .subscribe-btn:hover, .book-btn:hover {
       background: #f0f0f0;
       transform: translateY(-4px);
       box-shadow: 0 12px 30px rgba(255,255,255,0.25);
@@ -94,6 +94,14 @@
       transform: translateY(-4px);
       box-shadow: 0 12px 30px rgba(0,0,0,0.6);
     }
+    .book-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 1.1rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
 
     @media (max-width:900px) {
       .hero { height:80vh; padding-top:70px; }
@@ -101,6 +109,7 @@
       .hero .tagline { font-size:1.1rem; }
       .hero .subtext { font-size:0.95rem; }
       .hero-logo { width:70px; }
+      .book-btn { padding: 0.95rem 2.8rem; font-size: 1rem; }
     }
 
     .section {
@@ -113,7 +122,7 @@
       opacity: 1;
       transform: translateY(0);
     }
-    h2 { text-align:center; font-size:2.1rem; margin-bottom:30px; letter-spacing:3px; }
+    h2 { text-align:center; font-size:2.8rem; margin-bottom:30px; letter-spacing:3px; }
 
     .philosophy {
       max-width:860px; margin:0 auto 50px; text-align:center; font-size:1.05rem; line-height:1.7; opacity:0.9;
@@ -154,27 +163,27 @@
       transition:transform 0.4s;
     }
     .product-card:hover .product-summary { transform:translateY(-5px); }
-    .product-image { width:100%; height:200px; object-fit:cover; border-radius:10px 10px 0 0; }
-    @media (max-width:900px) { .product-image { height:170px; } }
-    .product-name { font-size:1.1rem; margin-bottom:5px; font-weight:500; }
-    .product-price { font-size:1rem; opacity:0.9; }
+    .product-image { width:100%; height:220px; object-fit:cover; border-radius:10px 10px 0 0; }
+    @media (max-width:900px) { .product-image { height:190px; } }
+    .product-name { font-size:1.15rem; margin:10px 0 4px; font-weight:500; }
+    .product-price { font-size:1.05rem; opacity:0.9; }
 
     .carousel-prev, .carousel-next {
       position:absolute; top:50%; transform:translateY(-50%);
       background:rgba(0,0,0,0.6); color:#fff; border:none;
-      width:38px; height:38px; border-radius:50%; cursor:pointer;
-      font-size:1.4rem; transition:all 0.3s; z-index:10;
+      width:44px; height:44px; border-radius:50%; cursor:pointer;
+      font-size:1.6rem; transition:all 0.3s; z-index:10;
     }
     .carousel-prev:hover, .carousel-next:hover { background:rgba(255,255,255,0.3); }
-    .carousel-prev { left:8px; }
-    .carousel-next { right:8px; }
+    .carousel-prev { left:10px; }
+    .carousel-next { right:10px; }
 
-    .swipe-hint { text-align:center; margin-top:12px; font-size:0.85rem; opacity:0.7; display:block; }
+    .swipe-hint { text-align:center; margin-top:16px; font-size:0.9rem; opacity:0.7; display:block; }
 
     /* Email Capture */
     .email-capture {
       background: #111;
-      padding: 60px 20px;
+      padding: 70px 20px;
       text-align: center;
       position: relative;
     }
@@ -308,7 +317,7 @@
       opacity: 0.9;
     }
 
-    /* Join Us Section – placed after Shop */
+    /* Join Us Section */
     .join-us-section {
       padding: 60px 20px;
       text-align: center;
@@ -327,25 +336,25 @@
     }
     .join-us-section form {
       display: flex;
-      border-radius: 50px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      flex-direction: column;
+      gap: 12px;
     }
     .join-us-section input {
-      flex: 1;
       padding: 14px 20px;
       font-size: 1.05rem;
       border: none;
       background: #222;
       color: #fff;
+      border-radius: 50px;
       outline: none;
     }
     .join-us-section button {
-      padding: 14px 36px;
+      padding: 14px 32px;
       font-size: 1.05rem;
       border: none;
       background: #fff;
       color: #000;
+      border-radius: 50px;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -360,6 +369,123 @@
     .join-us-section .terms a {
       color: #aaa;
       text-decoration: underline;
+    }
+
+    /* Visit Us Section */
+    .visit-us-section {
+      padding: 80px 20px;
+      text-align: center;
+      background: #0a0a0a;
+    }
+    .visit-us-section h2 {
+      font-size: 2.8rem;
+      margin-bottom: 24px;
+    }
+    .visit-us-section .intro {
+      font-size: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    .visit-us-section .detail {
+      font-size: 0.95rem;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      line-height: 1.5;
+      opacity: 0.7;
+      font-style: italic;
+    }
+    .visit-us-section .main-image-container {
+      max-width: 1000px;
+      margin: 0 auto 60px;
+    }
+    .visit-us-section .main-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    .visit-us-section .stores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .visit-us-section .store-card {
+      text-align: center;
+    }
+    .visit-us-section .store-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    .visit-us-section .store-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+    .visit-us-section .store-card p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      margin: 0;
+    }
+
+    /* Book Appointment Section */
+    .book-appointment-section {
+      padding: 80px 20px;
+      text-align: center;
+      background: #000;
+    }
+    .book-appointment-section h2 {
+      font-size: 2.8rem;
+      margin-bottom: 24px;
+    }
+    .book-appointment-section p {
+      font-size: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    .book-appointment-section .main-image-container {
+      max-width: 1000px;
+      margin: 0 auto 60px;
+    }
+    .book-appointment-section .main-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    .book-appointment-section .book-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 1.1rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+    .book-appointment-section .book-btn:hover {
+      background: #f0f0f0;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(255,255,255,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .visit-us-section h2, .book-appointment-section h2 { font-size: 2.4rem; }
+      .visit-us-section .intro, .book-appointment-section p { font-size: 1.15rem; }
+      .visit-us-section .detail { font-size: 0.9rem; }
+      .visit-us-section .store-card img, .book-appointment-section .main-image { height: auto; }
     }
 
     footer {
@@ -697,9 +823,36 @@
             <div class="shop-item-price">$420</div>
           </div>
         </div>
-        <!-- Add more outerwear items as needed -->
+        <div class="shop-item" data-category="outerwear">
+          <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Checked Trench Coat">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Checked Trench Coat</div>
+            <div class="shop-item-price">$380</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="outerwear">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Denim Jacket">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Denim Jacket</div>
+            <div class="shop-item-price">$210</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="outerwear">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Bomber Jacket">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Bomber Jacket</div>
+            <div class="shop-item-price">$260</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="outerwear">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Parka Coat">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Parka Coat</div>
+            <div class="shop-item-price">$390</div>
+          </div>
+        </div>
 
-        <!-- Dresses (hidden by default) -->
+        <!-- Dresses -->
         <div class="shop-item" data-category="dresses" style="display:none;">
           <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Floral Maxi Dress">
           <div class="shop-item-info">
@@ -707,9 +860,231 @@
             <div class="shop-item-price">$220</div>
           </div>
         </div>
-        <!-- Add more dresses items as needed -->
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?w=800" alt="Silk Slip Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Silk Slip Dress</div>
+            <div class="shop-item-price">$180</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Black Midi Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Black Midi Dress</div>
+            <div class="shop-item-price">$195</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Embroidered Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Embroidered Dress</div>
+            <div class="shop-item-price">$250</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Satin Evening Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Satin Evening Dress</div>
+            <div class="shop-item-price">$320</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Summer Wrap Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Summer Wrap Dress</div>
+            <div class="shop-item-price">$168</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Velvet Cocktail Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Velvet Cocktail Dress</div>
+            <div class="shop-item-price">$280</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="dresses" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Lace Midi Dress">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Lace Midi Dress</div>
+            <div class="shop-item-price">$235</div>
+          </div>
+        </div>
 
-        <!-- Shirts, Pants, Accessories, Lounge – follow the same pattern -->
+        <!-- Shirts -->
+        <div class="shop-item" data-category="shirts" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="White Button Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">White Button Shirt</div>
+            <div class="shop-item-price">$120</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="shirts" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oxford Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Oxford Shirt</div>
+            <div class="shop-item-price">$98</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="shirts" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Linen Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Linen Shirt</div>
+            <div class="shop-item-price">$135</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="shirts" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Silk Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Silk Shirt</div>
+            <div class="shop-item-price">$190</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="shirts" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Chambray Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Chambray Shirt</div>
+            <div class="shop-item-price">$145</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="shirts" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Flannel Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Flannel Shirt</div>
+            <div class="shop-item-price">$110</div>
+          </div>
+        </div>
+
+        <!-- Pants & Loungewear -->
+        <div class="shop-item" data-category="pants" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Relaxed Trousers">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Relaxed Trousers</div>
+            <div class="shop-item-price">$198</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="pants" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Wide-Leg Pants">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Wide-Leg Pants</div>
+            <div class="shop-item-price">$220</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="pants" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Lounge Joggers">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Lounge Joggers</div>
+            <div class="shop-item-price">$140</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="pants" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Tailored Chinos">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Tailored Chinos</div>
+            <div class="shop-item-price">$165</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="pants" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cargo Pants">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Cargo Pants</div>
+            <div class="shop-item-price">$175</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="pants" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Velvet Lounge Set">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Velvet Lounge Set</div>
+            <div class="shop-item-price">$240</div>
+          </div>
+        </div>
+
+        <!-- Accessories -->
+        <div class="shop-item" data-category="accessories" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Leather Belt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Leather Belt</div>
+            <div class="shop-item-price">$85</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="accessories" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Gold Chain Necklace">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Gold Chain Necklace</div>
+            <div class="shop-item-price">$120</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="accessories" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Leather Tote Bag">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Leather Tote Bag</div>
+            <div class="shop-item-price">$280</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="accessories" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Sunglasses">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Sunglasses</div>
+            <div class="shop-item-price">$150</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="accessories" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Silk Scarf">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Silk Scarf</div>
+            <div class="shop-item-price">$95</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="accessories" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Statement Earrings">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Statement Earrings</div>
+            <div class="shop-item-price">$110</div>
+          </div>
+        </div>
+
+        <!-- Lounge -->
+        <div class="shop-item" data-category="lounge" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Cashmere Lounge Set">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Cashmere Lounge Set</div>
+            <div class="shop-item-price">$280</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="lounge" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Silk Pyjama Set">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Silk Pyjama Set</div>
+            <div class="shop-item-price">$195</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="lounge" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Cotton Lounge Hoodie">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Cotton Lounge Hoodie</div>
+            <div class="shop-item-price">$160</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="lounge" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Velvet Lounge Pants">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Velvet Lounge Pants</div>
+            <div class="shop-item-price">$130</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="lounge" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Linen Lounge Shirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Linen Lounge Shirt</div>
+            <div class="shop-item-price">$115</div>
+          </div>
+        </div>
+        <div class="shop-item" data-category="lounge" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Oversized Lounge Sweatshirt">
+          <div class="shop-item-info">
+            <div class="shop-item-name">Oversized Lounge Sweatshirt</div>
+            <div class="shop-item-price">$170</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -720,7 +1095,7 @@
     <div class="container">
       <p>Join us in living fewer, better, every day.</p>
       <div class="form-container">
-        <form style="display:flex;">
+        <form style="display:flex; flex-direction:column; gap:12px; max-width:500px; margin:0 auto;">
           <input type="email" placeholder="Enter your email address" required>
           <button type="submit" class="subscribe-btn">Subscribe</button>
         </form>
@@ -728,6 +1103,77 @@
           By signing up, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>
         </p>
       </div>
+    </div>
+  </section>
+
+  <hr style="width: 200px; height: 3px; background: #888; border: none; margin: 50px auto;">
+
+  <!-- Visit Us Section -->
+  <section class="visit-us-section">
+    <div class="container">
+      <h2>Visit Us</h2>
+
+      <p class="intro">
+        Experience the "less, but better" philosophy in real life at our brick-and-mortar stores, where the service and timeless design ethic combine with the intimacy and customization of an atelier.
+      </p>
+
+      <p class="detail">
+        Enjoy the convenience of in-store pickup, same day delivery, and personalized shopping appointments, available both in-store and virtually.
+      </p>
+
+      <div class="main-image-container">
+        <img 
+          class="main-image" 
+          src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200" 
+          alt="JACE VOGUE Store Interior"
+        >
+      </div>
+
+      <div class="stores-grid">
+        <div class="store-card">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600" alt="Union Square">
+          <h4>Union Square</h4>
+          <p>San Francisco, CA</p>
+        </div>
+        <div class="store-card">
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600" alt="Fillmore St">
+          <h4>Fillmore St</h4>
+          <p>San Francisco, CA</p>
+        </div>
+        <div class="store-card">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600" alt="Stanford Shopping Center">
+          <h4>Stanford Shopping Center</h4>
+          <p>Palo Alto, CA</p>
+        </div>
+        <div class="store-card">
+          <img src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=600" alt="Abbot Kinney">
+          <h4>Abbot Kinney</h4>
+          <p>Venice, CA</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr style="width: 200px; height: 3px; background: #888; border: none; margin: 50px auto;">
+
+  <!-- Book Appointment Section -->
+  <section class="book-appointment-section">
+    <div class="container">
+      <h2>Book Appointment</h2>
+
+      <p>
+        Experience personalized shopping services in a welcoming and inviting atmosphere, catering to your individual needs and seasonal styling requirements, available both in-store and virtually.
+      </p>
+
+      <div class="main-image-container">
+        <img 
+          class="main-image" 
+          src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=1200" 
+          alt="Personalized Shopping Experience"
+        >
+      </div>
+
+      <a href="#book-form" class="book-btn">Book Appointment</a>
     </div>
   </section>
 
@@ -944,15 +1390,15 @@
     }
 
     document.querySelectorAll('.product-card, .shop-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('button') || e.target.closest('a')) return;
         const nameElem = item.querySelector('.product-name, .shop-item-name');
         const priceElem = item.querySelector('.product-price, .shop-item-price');
-        const imageElem = item.querySelector('img');
-        const name = nameElem ? nameElem.textContent : "Product";
-        const price = priceElem ? priceElem.textContent : "$0";
-        const description = "Premium luxury item.";
-        const imageSrc = imageElem ? imageElem.src : "";
-        openModal(name, price, description, imageSrc);
+        const imgElem = item.querySelector('img');
+        const name = nameElem ? nameElem.textContent.trim() : "Product";
+        const price = priceElem ? priceElem.textContent.trim() : "$0";
+        const imageSrc = imgElem ? imgElem.src : "";
+        openModal(name, price, "Premium luxury item.", imageSrc);
       });
     });
 
