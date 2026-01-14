@@ -61,12 +61,13 @@
     .hero .subtext {
       font-size:1.1rem; opacity:0.8; margin-bottom:40px; max-width:700px;
     }
-    .enter-btn {
+    .enter-btn, .join-btn {
       background:#fff; color:#000; padding:0.8rem 2.5rem;
       text-decoration:none; font-size:1rem; font-weight:500;
       transition:all 0.4s;
+      border-radius:4px;
     }
-    .enter-btn:hover { background:#ddd; transform:scale(1.05); }
+    .enter-btn:hover, .join-btn:hover { background:#ddd; transform:scale(1.05); }
 
     @media (max-width:900px) {
       .hero { height:80vh; padding-top:80px; }
@@ -87,6 +88,20 @@
       transform: translateY(0);
     }
     h2 { text-align:center; font-size:2.5rem; margin-bottom:40px; letter-spacing:4px; }
+
+    .philosophy {
+      max-width:900px; margin:0 auto 60px; text-align:center; font-size:1.2rem; line-height:1.8; opacity:0.9;
+    }
+    .philosophy h2 { margin-bottom:20px; }
+    .philosophy p { margin-bottom:25px; }
+
+    .separator {
+      width:80px;
+      height:1px;
+      background:#444;
+      margin:60px auto;
+      border:none;
+    }
 
     .products-carousel { position:relative; overflow:hidden; }
     .products-slides { display:flex; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -226,6 +241,26 @@
       <a href="clothing.html" class="enter-btn">Enter Collection</a>
     </div>
   </section>
+
+  <!-- Philosophy / Art of Fewer, Better Choices -->
+  <section class="section">
+    <div class="container">
+      <h2>The Art of Fewer, Better Choices</h2>
+      <p class="philosophy">
+        Opting for quality over quantity means selecting timeless, durable, and responsibly made items. This approach simplifies our lives and fosters a deeper appreciation for our surroundings. Emphasizing longevity and responsible production resonates with a more sustainable and mindful lifestyle.
+      </p>
+      <p class="philosophy">
+        Elevate your lifestyle with a more intelligent, superior wardrobe.<br>
+        Our range is crafted sustainably with longevity in mind.
+      </p>
+      <div style="text-align:center; margin-top:30px;">
+        <a href="signup.html" class="join-btn" style="background:#fff; color:#000; padding:0.8rem 2.5rem; text-decoration:none; font-size:1rem; font-weight:500; border-radius:4px; transition:all 0.4s;">Join us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal line separator -->
+  <hr class="separator">
 
   <!-- New Arrivals -->
   <section class="section">
@@ -440,7 +475,7 @@
       document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
     });
 
-    // Carousel – 4 visible on desktop, swipe one by one
+    // Carousel – 4 visible on desktop
     document.querySelectorAll('.products-carousel').forEach(carousel => {
       const slides = carousel.querySelector('.products-slides');
       const prev = carousel.querySelector('.carousel-prev');
