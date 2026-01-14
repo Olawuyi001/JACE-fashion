@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JACE — Luxury Redefined</title>
+  <title>JACE VOGUE — Luxury Redefined</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
   
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -17,12 +17,11 @@
       color:#fff;
       overflow-x:hidden;
     }
-    .container { max-width:1400px; margin:0 auto; padding:0 20px; }
+    .container { max-width:1400px; margin:0 auto; padding:0 15px; }
 
-    /* Navbar */
     header {
       position:fixed; top:0; left:0; width:100%;
-      padding:1.2rem 0; z-index:100;
+      padding:0.8rem 0; z-index:100;
       background:rgba(0,0,0,0.6);
       backdrop-filter:blur(15px);
       transition:background 0.4s;
@@ -30,159 +29,184 @@
     header.scrolled { background:rgba(0,0,0,0.9); }
     nav { display:flex; justify-content:space-between; align-items:center; }
     .brand-text {
-      font-size:2rem; font-weight:900; letter-spacing:8px;
-      color:#fff; cursor:pointer; transition:color 0.3s;
+      font-size:1.6rem; font-weight:900; letter-spacing:6px;
+      color:#fff; cursor:pointer;
     }
     .brand-text:hover { color:#ddd; }
     .nav-links a {
-      color:#fff; text-decoration:none; margin-left:2rem;
-      font-size:1.1rem; transition:color 0.3s;
+      color:#fff; text-decoration:none; margin-left:1.2rem;
+      font-size:0.95rem;
     }
-    .nav-links a:hover { color:#ddd; }
-    .hamburger { display:none; font-size:2rem; cursor:pointer; color:#fff; }
+    .hamburger { display:none; font-size:1.8rem; cursor:pointer; color:#fff; }
     @media (max-width:900px) {
-      .nav-links { display:none; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); flex-direction:column; padding:2rem 0; text-align:center; gap:1.5rem; }
-      .nav-links.active { display:flex; }
       .hamburger { display:block; }
-      .brand-text { font-size:1.6rem; }
+      .nav-links { display:none; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); flex-direction:column; padding:1.5rem 0; gap:1.2rem; text-align:center; }
+      .nav-links.active { display:flex; }
+      .brand-text { font-size:1.4rem; }
     }
 
-    /* Hero */
     .hero {
-      height:100vh; min-height:800px;
+      height:90vh; min-height:600px;
       background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
-                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&fit=crop&crop=faces') center/cover no-repeat;
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600') center/cover no-repeat;
       display:flex; flex-direction:column; justify-content:center; align-items:center;
-      text-align:center; position:relative; padding-top:140px;
+      text-align:center; padding-top:100px;
     }
-    .hero-content { position:relative; z-index:2; margin-top:60px; }
-    .hero-logo {
-      width:160px; height:auto; margin-bottom:30px;
-      filter: drop-shadow(0 10px 30px rgba(255,255,255,0.3));
-      transition:transform 0.6s ease;
+    .hero-logo { width:100px; height:auto; margin-bottom:20px; }
+    .hero h1 { font-size:5rem; font-weight:900; letter-spacing:15px; margin-bottom:20px; }
+    .hero .tagline {
+      font-size:1.5rem; opacity:0.9; margin:20px 0 40px; max-width:800px;
+      font-style:italic;
     }
-    .hero-logo:hover { transform:scale(1.05); }
-    .hero h1 { font-size:9rem; font-weight:900; letter-spacing:25px; margin-bottom:30px; }
-    .hero p { font-size:2.2rem; opacity:0.85; margin-bottom:60px; max-width:900px; }
+    .hero .subtext {
+      font-size:1.1rem; opacity:0.8; margin-bottom:40px; max-width:700px;
+    }
     .enter-btn {
-      background:#fff; color:#000; padding:20px 80px;
-      text-decoration:none; font-size:1.6rem; font-weight:500;
-      border-radius:0; transition:all 0.4s ease;
+      background:#fff; color:#000; padding:0.8rem 2.5rem;
+      text-decoration:none; font-size:1rem; font-weight:500;
+      transition:all 0.4s;
     }
-    .enter-btn:hover { background:#ddd; transform:scale(1.05); box-shadow:0 10px 30px rgba(0,0,0,0.6); }
-
-    /* Responsive Hero */
-    @media (max-width:900px) {
-      .hero { padding-top:100px; min-height:80vh; }
-      .hero h1 { font-size:5rem; letter-spacing:10px; }
-      .hero p { font-size:1.3rem; }
-      .hero-logo { width:120px; }
-      .enter-btn { padding:16px 50px; font-size:1.3rem; }
-    }
-
-    /* Sections */
-    .section { padding:160px 0; }
-    h2 { text-align:center; font-size:4.5rem; margin-bottom:80px; letter-spacing:6px; }
+    .enter-btn:hover { background:#ddd; transform:scale(1.05); }
 
     @media (max-width:900px) {
-      .section { padding:100px 0; }
-      h2 { font-size:3rem; }
+      .hero { height:80vh; padding-top:80px; }
+      .hero h1 { font-size:3.5rem; letter-spacing:8px; }
+      .hero .tagline { font-size:1.2rem; }
+      .hero .subtext { font-size:0.95rem; }
+      .hero-logo { width:80px; }
     }
 
-    /* Carousel */
+    .section {
+      padding:80px 0;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    }
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 { text-align:center; font-size:2.5rem; margin-bottom:40px; letter-spacing:4px; }
+
     .products-carousel { position:relative; overflow:hidden; }
-    .products-slides {
-      display:flex;
-      transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
-    }
+    .products-slides { display:flex; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
     .product-card {
-      min-width:100%; padding:0 20px; text-align:center;
+      min-width:25%; /* 4 visible on desktop */
+      padding:0 10px; text-align:center;
+      cursor:pointer;
     }
-    .product-image {
-      width:100%; height:420px; object-fit:cover; border-radius:12px;
-      transition:transform 0.5s ease, box-shadow 0.5s ease;
+    @media (max-width:900px) {
+      .product-card { min-width:100%; } /* 1 on mobile */
     }
-    .product-card:active .product-image,
-    .product-card:hover .product-image { 
-      transform:scale(1.05); 
-      box-shadow:0 20px 40px rgba(0,0,0,0.6); 
+    .product-summary {
+      background:#111; border-radius:10px; overflow:hidden;
+      box-shadow:0 8px 25px rgba(0,0,0,0.5);
+      padding:12px;
+      transition:transform 0.4s;
     }
-    .product-info { margin:25px 0 20px; }
-    .product-info h3 { font-size:2rem; margin-bottom:10px; }
-    .product-info p { font-size:1.5rem; opacity:0.9; }
+    .product-card:hover .product-summary { transform:translateY(-5px); }
+    .product-image { width:100%; height:220px; object-fit:cover; border-radius:10px 10px 0 0; }
+    @media (max-width:900px) { .product-image { height:180px; } }
+    .product-name { font-size:1.2rem; margin-bottom:6px; font-weight:500; }
+    .product-price { font-size:1.1rem; opacity:0.9; }
 
-    .controls {
-      display:flex; flex-direction:column; gap:20px; padding:0 20px 30px;
+    /* Modal/Popup */
+    .modal {
+      display:none;
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.92); z-index:200;
+      justify-content:center; align-items:center; padding:10px;
     }
-    .size-row { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+    .modal-content {
+      background:#111; border-radius:10px; max-width:360px; width:90%;
+      padding:18px; position:relative; box-shadow:0 15px 40px rgba(0,0,0,0.8);
+      text-align:center;
+      overflow-y:auto; max-height:80vh;
+    }
+    .close-btn {
+      position:absolute; top:8px; right:12px; font-size:2.6rem; font-weight:bold;
+      color:#ff4d4d; cursor:pointer; transition:all 0.3s;
+    }
+    .close-btn:hover {
+      color:#ff8080;
+      transform:scale(1.2);
+    }
+    .modal img { width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px; }
+    .modal h3 { font-size:1.5rem; margin-bottom:8px; }
+    .modal .product-description { font-size:0.9rem; opacity:0.8; margin-bottom:12px; line-height:1.5; }
+    .modal .product-price { font-size:1.2rem; font-weight:700; margin-bottom:12px; }
+    .total-price { font-size:1.1rem; font-weight:700; margin:10px 0; color:#fff; background:#222; padding:6px 12px; border-radius:30px; display:inline-block; }
+
+    .controls { display:flex; flex-direction:column; gap:12px; }
+    .size-row { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
     .size-btn {
-      background:transparent; border:1px solid #888; color:#fff;
-      padding:10px 18px; border-radius:30px; font-size:1rem;
+      background:transparent; border:1px solid #777; color:#fff;
+      padding:6px 12px; border-radius:30px; font-size:0.85rem;
       cursor:pointer; transition:all 0.3s;
     }
     .size-btn:hover, .size-btn.active {
-      background:#fff; color:#000; box-shadow:0 0 15px rgba(255,255,255,0.4); transform:scale(1.08);
+      background:#fff; color:#000; box-shadow:0 0 12px rgba(255,255,255,0.3);
     }
-    .qty-row { display:flex; justify-content:center; gap:15px; align-items:center; }
+    .qty-row { display:flex; justify-content:center; gap:10px; align-items:center; }
     .qty-btn {
-      width:42px; height:42px; border-radius:50%; background:transparent;
-      border:1px solid #888; color:#fff; font-size:1.4rem; cursor:pointer;
+      width:32px; height:32px; border-radius:50%; background:transparent;
+      border:1px solid #777; color:#fff; font-size:1.1rem; cursor:pointer;
       transition:all 0.3s;
     }
-    .qty-btn:hover { background:#fff; color:#000; box-shadow:0 0 12px rgba(255,255,255,0.3); }
+    .qty-btn:hover { background:#fff; color:#000; box-shadow:0 0 10px rgba(255,255,255,0.3); }
     .qty-display {
-      font-size:1.5rem; min-width:60px; text-align:center;
-      background:#222; padding:10px 15px; border-radius:30px;
+      font-size:1.2rem; min-width:45px; text-align:center;
+      background:#222; padding:6px 10px; border-radius:30px;
     }
     .add-btn {
-      background:#fff; color:#000; border:none; padding:16px 60px;
-      font-size:1.2rem; border-radius:30px; cursor:pointer;
-      transition:all 0.4s; box-shadow:0 5px 20px rgba(0,0,0,0.5);
+      background:#fff; color:#000; border:none; padding:12px 40px;
+      font-size:1rem; border-radius:30px; cursor:pointer;
+      transition:all 0.4s;
     }
-    .add-btn:hover { transform:translateY(-3px); box-shadow:0 15px 35px rgba(255,255,255,0.2); }
+    .add-btn:hover { transform:translateY(-3px); box-shadow:0 10px 25px rgba(255,255,255,0.2); }
 
-    /* Swipe hint & arrows */
-    .swipe-hint {
-      text-align:center; margin-top:20px; font-size:1.1rem; opacity:0.7;
-      display:none;
+    .favourite-btn {
+      font-size:1.3rem;
+      color:#aaa;
+      cursor:pointer;
+      transition:all 0.3s;
+      margin-left:10px;
     }
-    @media (max-width:900px) { .swipe-hint { display:block; } }
+    .favourite-btn.active {
+      color:#ff4d4d;
+    }
+
+    .swipe-hint { text-align:center; margin-top:15px; font-size:0.9rem; opacity:0.7; display:block; }
+
     .carousel-prev, .carousel-next {
       position:absolute; top:50%; transform:translateY(-50%);
       background:rgba(0,0,0,0.6); color:#fff; border:none;
-      width:50px; height:50px; border-radius:50%; cursor:pointer;
-      font-size:1.8rem; transition:all 0.3s; z-index:10;
+      width:40px; height:40px; border-radius:50%; cursor:pointer;
+      font-size:1.5rem; transition:all 0.3s; z-index:10;
     }
     .carousel-prev:hover, .carousel-next:hover { background:rgba(255,255,255,0.3); }
-    .carousel-prev { left:15px; }
-    .carousel-next { right:15px; }
+    .carousel-prev { left:10px; }
+    .carousel-next { right:10px; }
 
-    /* Footer Social Icons */
-    .footer-social {
-      padding:60px 0 20px; text-align:center;
+    footer {
+      padding:60px 0 20px;
+      text-align:center;
+      font-size:0.95rem;
+      opacity:0.8;
     }
-    .footer-social h3 {
-      font-size:1.8rem; margin-bottom:30px; opacity:0.8;
-    }
-    .social-icons {
-      display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;
-    }
-    .social-icons a img {
-      width:32px; height:32px; filter:brightness(0) invert(1);
-      transition:transform 0.3s;
-    }
-    .social-icons a:hover img {
-      transform:scale(1.2);
+    .footer-bottom {
+      margin-top:15px;
+      font-size:0.9rem;
+      opacity:0.7;
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <header>
     <div class="container">
       <nav>
-        <div class="brand-text" onclick="window.location.href='index.html'">JACE BRAND</div>
+        <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
         <div class="hamburger">&#9776;</div>
         <div class="nav-links">
           <a href="signup.html">Join us</a>
@@ -193,12 +217,12 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="hero-content">
-      <img src="JACE BRAND.png" alt="JACE Logo" class="hero-logo">
-      <h1>JACE</h1>
-      <p>Elevate Your Wardrobe with Timeless Luxury</p>
+      <img src="YOUR_LOGO_URL_HERE.png" alt="JACE VOGUE Logo" class="hero-logo">
+      <h1>JACE VOGUE</h1>
+      <p class="tagline">Where Every Thread Tells a Story</p>
+      <p class="subtext">Experience the intersection of timeless craftsmanship and contemporary design.<br>Each piece is a canvas of sophistication.</p>
       <a href="clothing.html" class="enter-btn">Enter Collection</a>
     </div>
   </section>
@@ -209,99 +233,67 @@
       <h2>New Arrivals</h2>
       <div class="products-carousel">
         <div class="products-slides">
-          <!-- Product 1 -->
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200" alt="Oversized Blazer">
-            <div class="product-info">
-              <h3>Oversized Blazer</h3>
-              <p>$298</p>
-            </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+            <div class="product-summary">
+              <div class="product-name">Oversized Blazer</div>
+              <div class="product-price">$298</div>
             </div>
           </div>
 
-          <!-- Product 2 -->
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=1200" alt="Cashmere Sweater">
-            <div class="product-info">
-              <h3>Cashmere Sweater</h3>
-              <p>$159</p>
-            </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cashmere Sweater">
+            <div class="product-summary">
+              <div class="product-name">Cashmere Sweater</div>
+              <div class="product-price">$159</div>
             </div>
           </div>
 
-          <!-- Product 3 -->
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=1200" alt="Wide Leg Trousers">
-            <div class="product-info">
-              <h3>Wide Leg Trousers</h3>
-              <p>$198</p>
-            </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+            <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Wide Leg Trousers">
+            <div class="product-summary">
+              <div class="product-name">Wide Leg Trousers</div>
+              <div class="product-price">$198</div>
             </div>
           </div>
 
-          <!-- Product 4 -->
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=1200" alt="Wool Coat">
-            <div class="product-info">
-              <h3>Wool Coat</h3>
-              <p>$449</p>
+            <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Wool Coat">
+            <div class="product-summary">
+              <div class="product-name">Wool Coat</div>
+              <div class="product-price">$449</div>
             </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Tailored Jacket">
+            <div class="product-summary">
+              <div class="product-name">Tailored Jacket</div>
+              <div class="product-price">$320</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Linen Blazer">
+            <div class="product-summary">
+              <div class="product-name">Linen Blazer</div>
+              <div class="product-price">$280</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Checked Blazer">
+            <div class="product-summary">
+              <div class="product-name">Checked Blazer</div>
+              <div class="product-price">$340</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Leather Blazer">
+            <div class="product-summary">
+              <div class="product-name">Leather Blazer</div>
+              <div class="product-price">$420</div>
             </div>
           </div>
         </div>
@@ -312,119 +304,73 @@
     </div>
   </section>
 
-  <!-- Brand Philosophy -->
-  <section class="section philosophy">
-    <div class="container">
-      <h2>The Art of Fewer, Better Choices</h2>
-      <p>Timeless pieces. Conscious craftsmanship. Made in Nigeria.</p>
-      <a href="about.html" class="btn" style="margin-top:40px; display:inline-block; padding:18px 60px; background:#fff; color:#000; text-decoration:none; font-size:1.4rem; transition:all 0.4s;">Discover Our Story</a>
-    </div>
-  </section>
-
-  <!-- Winter Edit Banner -->
-  <section class="banner">
-    <div class="banner-overlay">
-      <h2>Winter Edit</h2>
-      <p style="font-size:2rem; margin:20px 0 40px; max-width:800px;">Layered luxury. Sustainable warmth. Timeless silhouettes.</p>
-      <a href="clothing.html" class="btn">Shop Collection</a>
-    </div>
-  </section>
-
-  <!-- Best Sellers – Now fully filled with 4 items -->
+  <!-- Best Sellers – identical to New Arrivals -->
   <section class="section">
     <div class="container">
       <h2>Best Sellers</h2>
       <div class="products-carousel">
         <div class="products-slides">
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=1200" alt="Wide Leg Trousers">
-            <div class="product-info">
-              <h3>Wide Leg Trousers</h3>
-              <p>$198</p>
-            </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
+            <div class="product-summary">
+              <div class="product-name">Oversized Blazer</div>
+              <div class="product-price">$298</div>
             </div>
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=1200" alt="Wool Coat">
-            <div class="product-info">
-              <h3>Wool Coat</h3>
-              <p>$449</p>
-            </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cashmere Sweater">
+            <div class="product-summary">
+              <div class="product-name">Cashmere Sweater</div>
+              <div class="product-price">$159</div>
             </div>
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200" alt="Oversized Blazer">
-            <div class="product-info">
-              <h3>Oversized Blazer</h3>
-              <p>$298</p>
-            </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+            <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Wide Leg Trousers">
+            <div class="product-summary">
+              <div class="product-name">Wide Leg Trousers</div>
+              <div class="product-price">$198</div>
             </div>
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=1200" alt="Cashmere Sweater">
-            <div class="product-info">
-              <h3>Cashmere Sweater</h3>
-              <p>$159</p>
+            <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Wool Coat">
+            <div class="product-summary">
+              <div class="product-name">Wool Coat</div>
+              <div class="product-price">$449</div>
             </div>
-            <div class="controls">
-              <div class="size-row">
-                <button class="size-btn">XS</button>
-                <button class="size-btn">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-              </div>
-              <div class="qty-row">
-                <button class="qty-btn">-</button>
-                <span class="qty-display">1</span>
-                <button class="qty-btn">+</button>
-              </div>
-              <button class="add-btn">Add to Cart</button>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Tailored Jacket">
+            <div class="product-summary">
+              <div class="product-name">Tailored Jacket</div>
+              <div class="product-price">$320</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Linen Blazer">
+            <div class="product-summary">
+              <div class="product-name">Linen Blazer</div>
+              <div class="product-price">$280</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Checked Blazer">
+            <div class="product-summary">
+              <div class="product-name">Checked Blazer</div>
+              <div class="product-price">$340</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Leather Blazer">
+            <div class="product-summary">
+              <div class="product-name">Leather Blazer</div>
+              <div class="product-price">$420</div>
             </div>
           </div>
         </div>
@@ -435,60 +381,53 @@
     </div>
   </section>
 
-  <!-- Our Values -->
-  <section class="section values">
-    <div class="container">
-      <h2>Our Values</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:60px;text-align:center;">
-        <div><div style="font-size:5rem;margin-bottom:20px;">🌿</div><h3>Conscious Craft</h3><p>Eco-friendly & ethical.</p></div>
-        <div><div style="font-size:5rem;margin-bottom:20px;">∞</div><h3>Timeless</h3><p>Designed to endure.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="newsletter section">
-    <div class="container">
-      <h2>Join the JACE Circle</h2>
-      <p style="font-size:1.6rem;margin-bottom:40px;">15% off first order + exclusive updates</p>
-      <form style="max-width:600px;margin:0 auto;display:flex;gap:10px;">
-        <input type="email" placeholder="Your email" required style="flex:1;padding:15px;font-size:1.2rem;border:1px solid #444;background:#222;color:#fff;">
-        <button type="submit" style="background:#fff;color:#000;border:none;padding:15px 40px;font-size:1.2rem;cursor:pointer;">Subscribe</button>
-      </form>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer>
     <div class="container">
-      <div class="logo"><span class="spade">♠</span> JACE</div>
-      <div style="margin:30px 0;">
-        <a href="clothing.html" style="color:#aaa;margin:0 20px;text-decoration:none;">Shop</a>
-        <a href="about.html" style="color:#aaa;margin:0 20px;text-decoration:none;">About</a>
-        <a href="#" style="color:#aaa;margin:0 20px;text-decoration:none;">Contact</a>
+      <div class="logo"><span class="spade">♠</span> JACE VOGUE</div>
+      <div style="margin:20px 0;">
+        <a href="clothing.html" style="color:#aaa;margin:0 12px;text-decoration:none;">Shop</a>
+        <a href="about.html" style="color:#aaa;margin:0 12px;text-decoration:none;">About</a>
+        <a href="#" style="color:#aaa;margin:0 12px;text-decoration:none;">Contact</a>
       </div>
-      <p>Made in Nigeria with intention © 2026 JACE</p>
+      <p>Made in Nigeria with intention © 2026 JACE VOGUE</p>
+    </div>
+  </footer>
 
-      <!-- Social Media Icons -->
-      <div class="footer-social">
-        <h3>Follow JACE</h3>
-        <div class="social-icons">
-          <a href="https://instagram.com/jacebrand" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-          </a>
-          <a href="https://wa.me/2341234567890" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-          </a>
-          <a href="https://facebook.com/jacebrand" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
-          </a>
-          <a href="https://x.com/jacebrand" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X">
-          </a>
+  <!-- TRB line at the very bottom -->
+  <div class="footer-bottom" style="text-align:center; padding:20px 0; font-size:0.9rem; opacity:0.6; border-top:1px solid #222;">
+    TRB (THE RULE BREAKERS)
+  </div>
+
+  <!-- Modal Popup -->
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">×</span>
+      <img id="modalImage" src="" alt="Product">
+      <h3 id="modalName"></h3>
+      <p id="modalDescription" class="product-description"></p>
+      <p id="modalPrice" class="product-price"></p>
+      <div class="controls">
+        <div class="size-row">
+          <button class="size-btn">XS</button>
+          <button class="size-btn">S</button>
+          <button class="size-btn">M</button>
+          <button class="size-btn">L</button>
+          <button class="size-btn">XL</button>
+        </div>
+        <div class="qty-row">
+          <button class="qty-btn">-</button>
+          <span class="qty-display">1</span>
+          <button class="qty-btn">+</button>
+        </div>
+        <div id="modalTotal" class="total-price">Total: $0</div>
+        <div style="display:flex; align-items:center; justify-content:center; gap:20px; margin-top:10px;">
+          <button id="modalAddBtn" class="add-btn">Add to Cart</button>
+          <span id="favouriteBtn" class="favourite-btn" onclick="toggleFavourite()">♡</span>
         </div>
       </div>
     </div>
-  </footer>
+  </div>
 
   <script>
     // Hamburger Menu
@@ -496,73 +435,128 @@
       document.querySelector('.nav-links').classList.toggle('active');
     });
 
-    // Navbar scroll effect
+    // Navbar scroll
     window.addEventListener('scroll', () => {
       document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
     });
 
-    // Carousel Logic
-    const carousel = document.querySelector('.products-carousel');
-    const slides = carousel.querySelector('.products-slides');
-    const prev = carousel.querySelector('.carousel-prev');
-    const next = carousel.querySelector('.carousel-next');
-    let current = 0;
+    // Carousel – 4 visible on desktop, swipe one by one
+    document.querySelectorAll('.products-carousel').forEach(carousel => {
+      const slides = carousel.querySelector('.products-slides');
+      const prev = carousel.querySelector('.carousel-prev');
+      const next = carousel.querySelector('.carousel-next');
+      let current = 0;
 
-    function move() {
-      slides.style.transform = `translateX(-${current * 100}%)`;
-    }
+      function move() {
+        slides.style.transform = `translateX(-${current * 25}%)`;
+      }
 
-    prev.onclick = () => { if (current > 0) current--; move(); };
-    next.onclick = () => { if (current < 3) current++; move(); };
+      prev.onclick = () => { if (current > 0) current--; move(); };
+      next.onclick = () => { if (current < 7) current++; move(); };
 
-    // Touch swipe
-    let ts = 0, te = 0;
-    carousel.addEventListener('touchstart', e => ts = e.changedTouches[0].screenX, {passive:true});
-    carousel.addEventListener('touchend', e => {
-      te = e.changedTouches[0].screenX;
-      if (ts - te > 60 && current < 3) current++;
-      if (te - ts > 60 && current > 0) current--;
-      move();
-    }, {passive:true});
+      let ts = 0, te = 0;
+      carousel.addEventListener('touchstart', e => ts = e.changedTouches[0].screenX, {passive:true});
+      carousel.addEventListener('touchend', e => {
+        te = e.changedTouches[0].screenX;
+        if (ts - te > 60 && current < 7) current++;
+        if (te - ts > 60 && current > 0) current--;
+        move();
+      }, {passive:true});
+    });
 
-    // Quantity & Add to Cart Logic – Must select size first
-    document.querySelectorAll('.product-card').forEach(card => {
-      const sizes = card.querySelectorAll('.size-btn');
-      const qtyDisplay = card.querySelector('.qty-display');
-      let qty = 1;
-      let selectedSize = null;
+    // Modal logic
+    const modal = document.getElementById('productModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalName = document.getElementById('modalName');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalTotal = document.getElementById('modalTotal');
+    const modalAddBtn = document.getElementById('modalAddBtn');
+    const favouriteBtn = document.getElementById('favouriteBtn');
+    let currentQty = 1;
+    let currentPrice = 0;
+    let selectedSize = null;
+    let isFavourite = false;
 
-      // Size selection
-      sizes.forEach(btn => {
-        btn.onclick = () => {
-          sizes.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          selectedSize = btn.textContent;
-        };
-      });
-
-      // Quantity adjustment
-      card.querySelectorAll('.qty-btn').forEach(b => {
-        b.onclick = () => {
-          if (b.textContent === '+') {
-            qty++;
-          }
-          if (b.textContent === '-' && qty > 1) {
-            qty--;
-          }
-          qtyDisplay.textContent = qty;
-        };
-      });
-
-      // Add to Cart – Check size first, then redirect to login
-      card.querySelector('.add-btn').onclick = () => {
+    function openModal(name, price, description, imageSrc) {
+      modalImage.src = imageSrc;
+      modalName.textContent = name;
+      modalDescription.textContent = description || "Premium luxury item.";
+      modalPrice.textContent = price;
+      currentPrice = parseFloat(price.replace('$', ''));
+      currentQty = 1;
+      selectedSize = null;
+      isFavourite = false;
+      favouriteBtn.textContent = '♡';
+      favouriteBtn.classList.remove('active');
+      modalTotal.textContent = `Total: $${currentPrice.toFixed(2)}`;
+      modalAddBtn.onclick = () => {
         if (!selectedSize) {
-          alert("Please select a size first before adding to cart.");
+          alert("Please select a size first.");
           return;
         }
-        window.location.href = "login.html";  // Direct redirect to login
+        window.location.href = "login.html";
+      };
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    modal.onclick = (e) => {
+      if (e.target === modal) closeModal();
+    };
+
+    function toggleFavourite() {
+      isFavourite = !isFavourite;
+      if (isFavourite) {
+        favouriteBtn.textContent = '♥';
+        favouriteBtn.classList.add('active');
+      } else {
+        favouriteBtn.textContent = '♡';
+        favouriteBtn.classList.remove('active');
+      }
+    }
+
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.onclick = () => {
+        const name = card.querySelector('.product-name').textContent;
+        const price = card.querySelector('.product-price').textContent;
+        const description = "Premium luxury item.";
+        const imageSrc = card.querySelector('.product-image').src;
+        openModal(name, price, description, imageSrc);
       };
     });
+
+    document.querySelectorAll('.modal .size-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.modal .size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = btn.textContent;
+      };
+    });
+
+    document.querySelectorAll('.modal .qty-btn').forEach(b => {
+      b.onclick = () => {
+        if (b.textContent === '+') currentQty++;
+        if (b.textContent === '-' && currentQty > 1) currentQty--;
+        document.querySelector('.modal .qty-display').textContent = currentQty;
+        modalTotal.textContent = `Total: $${(currentPrice * currentQty).toFixed(2)}`;
+      };
+    });
+
+    // Smooth section reveal
+    const revealSections = document.querySelectorAll('.section');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealSections.forEach(section => revealObserver.observe(section));
   </script>
 </body>
 </html>
