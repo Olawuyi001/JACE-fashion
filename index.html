@@ -61,13 +61,13 @@
     .hero .subtext {
       font-size:1.1rem; opacity:0.8; margin-bottom:40px; max-width:700px;
     }
-    .enter-btn, .join-btn {
+    .enter-btn {
       background:#fff; color:#000; padding:0.8rem 2.5rem;
       text-decoration:none; font-size:1rem; font-weight:500;
       transition:all 0.4s;
       border-radius:4px;
     }
-    .enter-btn:hover, .join-btn:hover { background:#ddd; transform:scale(1.05); }
+    .enter-btn:hover { background:#ddd; transform:scale(1.05); }
 
     @media (max-width:900px) {
       .hero { height:80vh; padding-top:80px; }
@@ -87,7 +87,7 @@
       opacity: 1;
       transform: translateY(0);
     }
-    h2 { text-align:center; font-size:2.5rem; margin-bottom:40px; letter-spacing:4px; }
+    h2 { text-align:center; font-size:2.5rem; margin-bottom:20px; letter-spacing:4px; }
 
     .philosophy {
       max-width:900px; margin:0 auto 60px; text-align:center; font-size:1.2rem; line-height:1.8; opacity:0.9;
@@ -95,23 +95,31 @@
     .philosophy h2 { margin-bottom:20px; }
     .philosophy p { margin-bottom:25px; }
 
-    .separator {
-      width:80px;
-      height:1px;
-      background:#444;
-      margin:60px auto;
-      border:none;
+    .section-desc {
+      max-width:900px; margin:0 auto 40px; text-align:center; font-size:1.15rem; line-height:1.6; opacity:0.85;
     }
 
-    .products-carousel { position:relative; overflow:hidden; }
-    .products-slides { display:flex; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
-    .product-card {
-      min-width:25%; /* 4 visible on desktop */
-      padding:0 10px; text-align:center;
-      cursor:pointer;
+    .separator {
+      width: 200px;
+      height: 3px;
+      background: #888;
+      border: none;
+      margin: 50px auto;
     }
-    @media (max-width:900px) {
-      .product-card { min-width:100%; } /* 1 on mobile */
+
+    .products-carousel { 
+      position: relative; 
+      overflow: hidden; 
+    }
+    .products-slides { 
+      display: flex; 
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); 
+    }
+    .product-card {
+      min-width: 100%;          /* Always 1 full item visible */
+      padding: 0 10px;
+      text-align: center;
+      cursor: pointer;
     }
     .product-summary {
       background:#111; border-radius:10px; overflow:hidden;
@@ -249,23 +257,20 @@
       <p class="philosophy">
         Opting for quality over quantity means selecting timeless, durable, and responsibly made items. This approach simplifies our lives and fosters a deeper appreciation for our surroundings. Emphasizing longevity and responsible production resonates with a more sustainable and mindful lifestyle.
       </p>
-      <p class="philosophy">
-        Elevate your lifestyle with a more intelligent, superior wardrobe.<br>
-        Our range is crafted sustainably with longevity in mind.
-      </p>
-      <div style="text-align:center; margin-top:30px;">
-        <a href="signup.html" class="join-btn" style="background:#fff; color:#000; padding:0.8rem 2.5rem; text-decoration:none; font-size:1rem; font-weight:500; border-radius:4px; transition:all 0.4s;">Join us</a>
-      </div>
     </div>
   </section>
 
-  <!-- Horizontal line separator -->
-  <hr class="separator">
+  <!-- Visible separator line -->
+  <hr style="width: 200px; height: 3px; background: #888; border: none; margin: 50px auto;">
 
   <!-- New Arrivals -->
   <section class="section">
     <div class="container">
       <h2>New Arrivals</h2>
+      <p class="section-desc">
+        Elevate your lifestyle with a more intelligent, superior wardrobe.<br>
+        Our range is crafted sustainably with longevity in mind.
+      </p>
       <div class="products-carousel">
         <div class="products-slides">
           <div class="product-card">
@@ -339,28 +344,15 @@
     </div>
   </section>
 
-  <!-- Best Sellers – identical to New Arrivals -->
+  <!-- Featured Products -->
   <section class="section">
     <div class="container">
-      <h2>Best Sellers</h2>
+      <h2>Featured Products</h2>
+      <p class="section-desc">
+        Discover our hand-picked selection of premium clothing items that define this season's trends.
+      </p>
       <div class="products-carousel">
         <div class="products-slides">
-          <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
-            <div class="product-summary">
-              <div class="product-name">Oversized Blazer</div>
-              <div class="product-price">$298</div>
-            </div>
-          </div>
-
-          <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cashmere Sweater">
-            <div class="product-summary">
-              <div class="product-name">Cashmere Sweater</div>
-              <div class="product-price">$159</div>
-            </div>
-          </div>
-
           <div class="product-card">
             <img class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800" alt="Wide Leg Trousers">
             <div class="product-summary">
@@ -378,33 +370,49 @@
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Tailored Jacket">
+            <img class="product-image" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Oversized Blazer">
             <div class="product-summary">
-              <div class="product-name">Tailored Jacket</div>
-              <div class="product-price">$320</div>
+              <div class="product-name">Oversized Blazer</div>
+              <div class="product-price">$298</div>
             </div>
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Linen Blazer">
+            <img class="product-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800" alt="Cashmere Sweater">
             <div class="product-summary">
-              <div class="product-name">Linen Blazer</div>
-              <div class="product-price">$280</div>
+              <div class="product-name">Cashmere Sweater</div>
+              <div class="product-price">$159</div>
             </div>
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Checked Blazer">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Slim Fit Blazer">
             <div class="product-summary">
-              <div class="product-name">Checked Blazer</div>
-              <div class="product-price">$340</div>
+              <div class="product-name">Slim Fit Blazer</div>
+              <div class="product-price">$310</div>
             </div>
           </div>
 
           <div class="product-card">
-            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Leather Blazer">
+            <img class="product-image" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800" alt="Double-Breasted Suit">
             <div class="product-summary">
-              <div class="product-name">Leather Blazer</div>
+              <div class="product-name">Double-Breasted Suit</div>
+              <div class="product-price">$550</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1604176354204-926873b1b2d8?w=800" alt="Merino Wool Sweater">
+            <div class="product-summary">
+              <div class="product-name">Merino Wool Sweater</div>
+              <div class="product-price">$180</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img class="product-image" src="https://images.unsplash.com/photo-1593795899768-947c4929449d?w=800" alt="Classic Trench Coat">
+            <div class="product-summary">
+              <div class="product-name">Classic Trench Coat</div>
               <div class="product-price">$420</div>
             </div>
           </div>
@@ -475,28 +483,43 @@
       document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
     });
 
-    // Carousel – 4 visible on desktop
+    // Carousel – 1 full item visible at a time, move one item per swipe
     document.querySelectorAll('.products-carousel').forEach(carousel => {
       const slides = carousel.querySelector('.products-slides');
       const prev = carousel.querySelector('.carousel-prev');
       const next = carousel.querySelector('.carousel-next');
       let current = 0;
+      const totalCards = slides.children.length;
 
       function move() {
-        slides.style.transform = `translateX(-${current * 25}%)`;
+        slides.style.transform = `translateX(-${current * 100}%)`;
       }
 
-      prev.onclick = () => { if (current > 0) current--; move(); };
-      next.onclick = () => { if (current < 7) current++; move(); };
+      prev.onclick = () => {
+        if (current > 0) current--;
+        move();
+      };
+
+      next.onclick = () => {
+        if (current < totalCards - 1) current++;
+        move();
+      };
 
       let ts = 0, te = 0;
-      carousel.addEventListener('touchstart', e => ts = e.changedTouches[0].screenX, {passive:true});
+      carousel.addEventListener('touchstart', e => {
+        ts = e.changedTouches[0].screenX;
+      }, {passive: true});
+
       carousel.addEventListener('touchend', e => {
         te = e.changedTouches[0].screenX;
-        if (ts - te > 60 && current < 7) current++;
-        if (te - ts > 60 && current > 0) current--;
+        if (ts - te > 60 && current < totalCards - 1) {
+          current++;
+        }
+        if (te - ts > 60 && current > 0) {
+          current--;
+        }
         move();
-      }, {passive:true});
+      }, {passive: true});
     });
 
     // Modal logic
