@@ -10,6 +10,57 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    /* New container for cart & favorites icons – always visible */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;           /* space between cart and heart */
+  margin-left: auto;     /* pushes them to the right */
+}
+
+/* Style for cart and heart icons */
+.nav-icon {
+  font-size: 1.45rem;
+  color: #fff;
+  position: relative;
+  transition: color 0.25s;
+}
+.nav-icon:hover { color: #ddd; }
+
+/* On desktop: hide hamburger, show full links */
+@media (min-width: 961px) {
+  .hamburger { display: none; }
+  .nav-links { display: flex !important; }
+}
+
+/* On mobile: show hamburger + keep icons visible */
+@media (max-width: 960px) {
+  .hamburger { display: block; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.95);
+    padding: 1.5rem 0;
+    gap: 1.4rem;
+    text-align: center;
+  }
+  .nav-links.active { display: flex; }
+
+  /* Make sure icons are visible and nicely spaced */
+  .nav-icons {
+    order: 3;              /* after logo, before hamburger */
+  }
+}
+
+/* Optional: slightly smaller icons on very small phones */
+@media (max-width: 500px) {
+  .nav-icon { font-size: 1.3rem; }
+  .badge { font-size: 0.6rem; min-width: 16px; height: 16px; }
+}
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Playfair Display', serif;
@@ -177,10 +228,8 @@
     <nav>
       <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
 
-      <div class="nav-links">
-        <a href="index.html" class="back-home-link">« BACK TO HOME</a>
-        
-
+      <!-- Cart & Favorites icons – always visible, even on mobile -->
+      <div class="nav-icons">
         <a href="cart.html" class="nav-icon" title="Cart">
           🛒 <span id="cartBadge" class="badge hidden">0</span>
         </a>
@@ -189,7 +238,14 @@
         </a>
       </div>
 
+      <!-- Hamburger and collapsible menu (links only) -->
       <div class="hamburger">&#9776;</div>
+      <div class="nav-links">
+        <a href="index.html" class="back-home-link">« BACK TO HOME</a>
+        <a href="signup.html">Join us</a>
+        <a href="login.html">Login</a>
+        <a href="about.html">About</a>
+      </div>
     </nav>
   </div>
 </header>
