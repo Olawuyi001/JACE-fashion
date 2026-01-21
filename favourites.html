@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Favourites — JACE VOGUE</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { overflow-x:hidden; -webkit-overflow-scrolling:touch; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background:#000;
+      color:#fff;
+      font-size:16px;
+      line-height:1.6;
+    }
+    .container { max-width:1400px; margin:0 auto; padding:0 15px; }
+
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      padding:0.8rem 0; z-index:100;
+      background:rgba(0,0,0,0.65);
+      backdrop-filter:blur(15px);
+      transition:background 0.4s;
+    }
+    header.scrolled { background:rgba(0,0,0,0.95); }
+
+    nav {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .brand-text {
+      font-size:1.45rem;
+      font-weight:900;
+      letter-spacing:5px;
+      color:#fff;
+      cursor:pointer;
+    }
+    .brand-text:hover { color:#eee; }
+
+    .nav-links {
+      display:flex;
+      align-items:center;
+      gap:1.8rem;
+    }
+    .nav-links a {
+      color:#fff;
+      text-decoration:none;
+      font-size:0.95rem;
+      transition:color 0.25s;
+    }
+    .nav-links a:hover { color:#ddd; }
+
+    .nav-icon {
+      font-size:1.45rem;
+      cursor:pointer;
+      color:#fff;
+      position:relative;
+      transition:color 0.25s;
+    }
+    .nav-icon:hover { color:#ddd; }
+
+    .badge {
+      position:absolute;
+      top:-10px;
+      right:-10px;
+      background:#ff4d4d;
+      color:white;
+      font-size:0.68rem;
+      font-weight:bold;
+      min-width:18px;
+      height:18px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 4px;
+    }
+    .badge.hidden { display:none; }
+
+    .hamburger { display:none; font-size:1.8rem; cursor:pointer; color:#fff; }
+
+    @media (max-width:960px) {
+      .hamburger { display:block; }
+      .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); padding:1.5rem 0; gap:1.4rem; text-align:center; }
+      .nav-links.active { display:flex; }
+    }
+
+    /* Favourites page content */
+    .favourites-hero {
+      height:60vh; min-height:500px;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600') center/cover no-repeat;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center; margin-top:70px;
+    }
+    .favourites-hero h1 {
+      font-size:clamp(3rem,8vw,5rem);
+      font-weight:900; letter-spacing:8px;
+    }
+
+    .favourites-section {
+      padding:clamp(60px,10vw,100px) 20px;
+      background:#0a0a0a;
+    }
+
+    .favourites-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+      gap:24px;
+      max-width:1200px;
+      margin:0 auto;
+    }
+
+    .favourite-item {
+      background:#111;
+      border-radius:12px;
+      overflow:hidden;
+      transition:transform 0.3s;
+    }
+    .favourite-item:hover { transform:translateY(-8px); }
+
+    .favourite-item img {
+      width:100%;
+      height:auto;
+      max-height:280px;
+      object-fit:contain;
+      background:#000;
+    }
+
+    .favourite-info {
+      padding:16px;
+      text-align:center;
+    }
+
+    .favourite-name {
+      font-size:1.25rem;
+      margin-bottom:8px;
+    }
+
+    .favourite-price, .favourite-size, .favourite-date {
+      font-size:0.95rem;
+      opacity:0.85;
+      margin:4px 0;
+    }
+
+    .remove-btn {
+      background:#ff4d4d;
+      color:white;
+      border:none;
+      padding:8px 20px;
+      margin-top:12px;
+      border-radius:30px;
+      font-size:0.95rem;
+      cursor:pointer;
+      transition:background 0.3s;
+    }
+    .remove-btn:hover { background:#ff8080; }
+
+    .empty-message {
+      text-align:center;
+      font-size:1.4rem;
+      opacity:0.7;
+      padding:80px 20px;
+    }
+
+    footer {
+      padding:50px 0 20px; text-align:center; font-size:0.9rem; opacity:0.8;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
+
+      <div class="nav-links">
+        <a href="signup.html">Join us</a>
+        <a href="login.html">Login</a>
+        <a href="about.html">About</a>
+
+        <!-- Cart & Favorites icons – placed at the far right -->
+        <a href="cart.html" class="nav-icon" title="Cart">
+          🛒
+          <span id="cartBadge" class="badge hidden">0</span>
+        </a>
+        <a href="favourites.html" class="nav-icon" title="Favorites">
+          ♡
+          <span id="favBadge" class="badge hidden">0</span>
+        </a>
+      </div>
+
+      <div class="hamburger">&#9776;</div>
+    </nav>
+  </div>
+</header>
+
+<section class="favourites-hero">
+  <h1>Your Favourites</h1>
+</section>
+
+<section class="favourites-section">
+  <div class="container">
+    <div class="favourites-grid" id="favouritesGrid">
+      <!-- Items will be added here by JavaScript -->
+    </div>
+    <p id="emptyMessage" class="empty-message" style="display:none;">
+      Your favourites list is empty.<br>
+      <a href="index.html" style="color:#aaa;">Start adding items you love →</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Made in Nigeria with intention © 2026 JACE VOGUE</p>
+  </div>
+</footer>
+
+<script>
+// Hamburger Menu
+document.querySelector('.hamburger').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('active');
+});
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  document.querySelector('header').classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// Update badges
+function updateBadges() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+  const cartBadge = document.getElementById('cartBadge');
+  const favBadge = document.getElementById('favBadge');
+
+  cartBadge.textContent = cart.length;
+  cartBadge.classList.toggle('hidden', cart.length === 0);
+
+  favBadge.textContent = favs.length;
+  favBadge.classList.toggle('hidden', favs.length === 0);
+}
+
+// Render favourites list
+function renderFavourites() {
+  const grid = document.getElementById('favouritesGrid');
+  const emptyMsg = document.getElementById('emptyMessage');
+  const favourites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+  grid.innerHTML = '';
+
+  if (favourites.length === 0) {
+    emptyMsg.style.display = 'block';
+    return;
+  }
+
+  emptyMsg.style.display = 'none';
+
+  favourites.forEach((item, index) => {
+    const card = document.createElement('div');
+    card.className = 'favourite-item';
+    card.innerHTML = `
+      <img src="${item.image || 'https://via.placeholder.com/280x280/111/fff?text=No+Image'}" alt="${item.name}">
+      <div class="favourite-info">
+        <div class="favourite-name">${item.name}</div>
+        <div class="favourite-price">${item.price}</div>
+        ${item.size ? `<div class="favourite-size">Size: ${item.size}</div>` : ''}
+        <div class="favourite-date">Added: ${new Date(item.addedAt).toLocaleDateString()}</div>
+        <button class="remove-btn" data-index="${index}">Remove</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Remove handlers
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const index = parseInt(btn.dataset.index);
+      favourites.splice(index, 1);
+      localStorage.setItem('favorites', JSON.stringify(favourites));
+      renderFavourites();
+      updateBadges();
+    });
+  });
+}
+
+// Initialize
+updateBadges();
+renderFavourites();
+</script>
+</body>
+</html>

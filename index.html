@@ -10,57 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* New container for cart & favorites icons – always visible */
-.nav-icons {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;           /* space between cart and heart */
-  margin-left: auto;     /* pushes them to the right */
-}
-
-/* Style for cart and heart icons */
-.nav-icon {
-  font-size: 1.45rem;
-  color: #fff;
-  position: relative;
-  transition: color 0.25s;
-}
-.nav-icon:hover { color: #ddd; }
-
-/* On desktop: hide hamburger, show full links */
-@media (min-width: 961px) {
-  .hamburger { display: none; }
-  .nav-links { display: flex !important; }
-}
-
-/* On mobile: show hamburger + keep icons visible */
-@media (max-width: 960px) {
-  .hamburger { display: block; }
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.95);
-    padding: 1.5rem 0;
-    gap: 1.4rem;
-    text-align: center;
-  }
-  .nav-links.active { display: flex; }
-
-  /* Make sure icons are visible and nicely spaced */
-  .nav-icons {
-    order: 3;              /* after logo, before hamburger */
-  }
-}
-
-/* Optional: slightly smaller icons on very small phones */
-@media (max-width: 500px) {
-  .nav-icon { font-size: 1.3rem; }
-  .badge { font-size: 0.6rem; min-width: 16px; height: 16px; }
-}
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { overflow-x:hidden; -webkit-overflow-scrolling:touch; }
     body {
@@ -143,7 +92,67 @@
       .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); padding:1.5rem 0; gap:1.4rem; text-align:center; }
       .nav-links.active { display:flex; }
     }
+/* Spinning orbit around static logo */
+.scene {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
 
+.logo-center {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(255,255,255,0.15);
+  z-index: 10;
+}
+
+.logo-center img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.orbit-ring {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border: 2px solid rgba(255,215,0,0.3); /* gold tint – change to silver etc. */
+  border-radius: 50%;
+  animation: spin 14s infinite linear;
+  box-shadow: 0 0 40px rgba(255,215,0,0.15);
+}
+
+.glow-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(white, gold);
+  border-radius: 50%;
+  box-shadow: 0 0 20px gold, 0 0 40px gold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.glow-particle:nth-child(1) { animation: particle-orbit 10s infinite linear; }
+.glow-particle:nth-child(2) { animation: particle-orbit 14s infinite linear; transform: rotate(120deg) translate(160px) rotate(-120deg); }
+.glow-particle:nth-child(3) { animation: particle-orbit 12s infinite linear; transform: rotate(240deg) translate(160px) rotate(-240deg); }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes particle-orbit {
+  from { transform: rotate(0deg) translate(160px) rotate(0deg); }
+  to   { transform: rotate(360deg) translate(160px) rotate(-360deg); }
+}
     .hero {
       min-height:80vh;
       background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
@@ -395,36 +404,51 @@
     <nav>
       <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
 
-      <!-- Cart & Favorites icons – always visible, even on mobile -->
-      <div class="nav-icons">
-        <a href="cart.html" class="nav-icon" title="Cart">
-          🛒 <span id="cartBadge" class="badge hidden">0</span>
-        </a>
-        <a href="favourites.html" class="nav-icon" title="Favorites">
-          ♡ <span id="favBadge" class="badge hidden">0</span>
-        </a>
-      </div>
-
-      <!-- Hamburger and collapsible menu (links only) -->
-      <div class="hamburger">&#9776;</div>
       <div class="nav-links">
-        <a href="index.html" class="back-home-link">« BACK TO HOME</a>
         <a href="signup.html">Join us</a>
         <a href="login.html">Login</a>
         <a href="about.html">About</a>
+
+        <!-- Cart & Favorites icons – placed at the far right -->
+        <a href="cart.html" class="nav-icon" title="Cart">
+          🛒
+          <span id="cartBadge" class="badge hidden">0</span>
+        </a>
+        <a href="favourites.html" class="nav-icon" title="Favorites">
+          ♡
+          <span id="favBadge" class="badge hidden">0</span>
+        </a>
       </div>
+
+      <div class="hamburger">&#9776;</div>
     </nav>
   </div>
 </header>
 
 <section class="hero">
-  <div class="hero-content">
-    <img src="JACE BRAND.png" alt="JACE VOGUE Logo" class="hero-logo">
-    <h1>JACE VOGUE</h1>
-    <p class="tagline">Where Every Thread Tells a Story</p>
-    <p class="subtext">Experience the intersection of timeless craftsmanship and contemporary design.<br>Each piece is a canvas of sophistication.</p>
-    <a href="clothing.html" class="enter-btn">Enter Collection</a>
+  <div class="scene">
+    <!-- Static centered logo – stays still -->
+    <div class="logo-center">
+      <!-- Replace this src with your real logo (transparent PNG recommended) -->
+      <img src="JACE BRAND.png" alt="JACE VOGUE Logo">
+    </div>
+
+    <!-- Spinning outer ring -->
+    <div class="orbit-ring"></div>
+
+    <!-- Glowing orbiting particles -->
+    <div class="glow-particle"></div>
+    <div class="glow-particle"></div>
+    <div class="glow-particle"></div>
   </div>
+
+  <h1>JACE VOGUE</h1>
+  <p class="tagline">Where Every Thread Tells a Story</p>
+  <p class="subtext">
+    Experience the intersection of timeless craftsmanship and contemporary design.<br>
+    Each piece is a canvas of sophistication.
+  </p>
+  <a href="clothing.html" class="enter-btn">Enter Collection</a>
 </section>
 
 <section class="section">

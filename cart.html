@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Cart — JACE VOGUE</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background:#000;
+      color:#fff;
+      font-size:16px;
+      line-height:1.6;
+    }
+    .container { max-width:1400px; margin:0 auto; padding:0 15px; }
+
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      padding:0.8rem 0; z-index:100;
+      background:rgba(0,0,0,0.65);
+      backdrop-filter:blur(15px);
+      transition:background 0.4s;
+    }
+    header.scrolled { background:rgba(0,0,0,0.95); }
+
+    nav {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .brand-text {
+      font-size:1.45rem;
+      font-weight:900;
+      letter-spacing:5px;
+      color:#fff;
+      cursor:pointer;
+    }
+    .brand-text:hover { color:#eee; }
+
+    .nav-links {
+      display:flex;
+      align-items:center;
+      gap:1.8rem;
+    }
+    .nav-links a {
+      color:#fff;
+      text-decoration:none;
+      font-size:0.95rem;
+      transition:color 0.25s;
+    }
+    .nav-links a:hover { color:#ddd; }
+
+    .nav-icon {
+      font-size:1.45rem;
+      cursor:pointer;
+      color:#fff;
+      position:relative;
+      transition:color 0.25s;
+    }
+    .nav-icon:hover { color:#ddd; }
+
+    .badge {
+      position:absolute;
+      top:-10px;
+      right:-10px;
+      background:#ff4d4d;
+      color:white;
+      font-size:0.68rem;
+      font-weight:bold;
+      min-width:18px;
+      height:18px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 4px;
+    }
+    .badge.hidden { display:none; }
+
+    .hamburger { display:none; font-size:1.8rem; cursor:pointer; color:#fff; }
+
+    @media (max-width:960px) {
+      .hamburger { display:block; }
+      .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; width:100%; background:rgba(0,0,0,0.95); padding:1.5rem 0; gap:1.4rem; text-align:center; }
+      .nav-links.active { display:flex; }
+    }
+
+    /* Cart page styles */
+    .cart-hero {
+      height:60vh; min-height:500px;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+                  url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600') center/cover no-repeat;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center; margin-top:70px;
+    }
+    .cart-hero h1 {
+      font-size:clamp(3rem,8vw,5rem);
+      font-weight:900; letter-spacing:8px;
+    }
+
+    .cart-section {
+      padding:clamp(80px,10vw,120px) 20px 80px;
+      background:#0a0a0a;
+    }
+
+    .cart-items {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+      gap:24px;
+      max-width:1200px;
+      margin:0 auto 40px;
+    }
+
+    .cart-item {
+      background:#111;
+      border-radius:12px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      transition:transform 0.3s;
+    }
+    .cart-item:hover { transform:translateY(-6px); }
+
+    .cart-item img {
+      width:100%;
+      height:220px;
+      object-fit:contain;
+      background:#000;
+      padding:10px;
+    }
+
+    .cart-item-info {
+      padding:16px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .cart-item-name {
+      font-size:1.25rem;
+      margin-bottom:8px;
+    }
+
+    .cart-item-details {
+      font-size:0.95rem;
+      opacity:0.9;
+      margin:4px 0;
+    }
+
+    .cart-item-subtotal {
+      font-size:1.05rem;
+      font-weight:600;
+      margin:12px 0;
+    }
+
+    .remove-btn {
+      background:#ff4d4d;
+      color:white;
+      border:none;
+      padding:8px 20px;
+      border-radius:30px;
+      font-size:0.95rem;
+      cursor:pointer;
+      align-self:flex-start;
+      transition:background 0.3s;
+    }
+    .remove-btn:hover { background:#ff8080; }
+
+    .cart-summary {
+      background:#111;
+      border-radius:12px;
+      padding:30px;
+      max-width:500px;
+      margin:0 auto 40px;
+      text-align:center;
+    }
+
+    .cart-total {
+      font-size:1.8rem;
+      margin:20px 0 30px;
+    }
+
+    .checkout-btn {
+      background:#fff;
+      color:#000;
+      padding:14px 40px;
+      border:none;
+      border-radius:50px;
+      font-size:1.1rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all 0.3s;
+    }
+    .checkout-btn:hover { background:#e0e0e0; transform:translateY(-2px); }
+
+    .login-message {
+      background:#222;
+      border-radius:12px;
+      padding:40px 30px;
+      text-align:center;
+      max-width:600px;
+      margin:0 auto;
+    }
+
+    .empty-cart {
+      text-align:center;
+      font-size:1.5rem;
+      opacity:0.7;
+      padding:100px 20px;
+    }
+
+    footer {
+      padding:60px 0 30px;
+      text-align:center;
+      opacity:0.8;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
+
+      <div class="nav-links">
+        <a href="signup.html">Join us</a>
+        <a href="login.html">Login</a>
+        <a href="about.html">About</a>
+
+        <a href="cart.html" class="nav-icon" title="Cart">
+          🛒 <span id="cartBadge" class="badge hidden">0</span>
+        </a>
+        <a href="favourites.html" class="nav-icon" title="Favorites">
+          ♡ <span id="favBadge" class="badge hidden">0</span>
+        </a>
+      </div>
+
+      <div class="hamburger">&#9776;</div>
+    </nav>
+  </div>
+</header>
+
+<section class="cart-hero">
+  <h1>Your Cart</h1>
+</section>
+
+<section class="cart-section">
+  <div class="container">
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-summary" id="cartSummary" style="display:none;">
+      <h2>Order Summary</h2>
+      <div class="cart-total" id="cartTotal">Total: $0.00</div>
+      <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+
+    <div id="loginMessage" class="login-message" style="display:none;">
+      <p>You need to be logged in to proceed to checkout.</p>
+      <a href="login.html" style="color:#fff; background:#ff4d4d; padding:12px 30px; border-radius:30px; text-decoration:none; display:inline-block; margin-top:20px;">
+        Login or Create Account
+      </a>
+    </div>
+
+    <p id="emptyCart" class="empty-cart" style="display:none;">
+      Your cart is empty.<br>
+      <a href="index.html" style="color:#aaa;">Continue shopping →</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Made in Nigeria with intention © 2026 JACE VOGUE</p>
+  </div>
+</footer>
+
+<script>
+// Hamburger menu toggle
+document.querySelector('.hamburger').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('active');
+});
+
+// Scroll header effect
+window.addEventListener('scroll', () => {
+  document.querySelector('header').classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// Update header badges
+function updateBadges() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+  document.getElementById('cartBadge').textContent = cart.length;
+  document.getElementById('cartBadge').classList.toggle('hidden', cart.length === 0);
+
+  document.getElementById('favBadge').textContent = favs.length;
+  document.getElementById('favBadge').classList.toggle('hidden', favs.length === 0);
+}
+
+// Merge duplicate items (same name + same size)
+function getMergedCart() {
+  const rawCart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const merged = {};
+
+  rawCart.forEach(item => {
+    const key = `${item.name}|${item.size || 'N/A'}`;
+    if (!merged[key]) {
+      merged[key] = { ...item, quantity: 0 };
+    }
+    merged[key].quantity += item.quantity || 1;
+  });
+
+  return Object.values(merged);
+}
+
+// Render cart
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const summary = document.getElementById('cartSummary');
+  const empty = document.getElementById('emptyCart');
+  const loginMsg = document.getElementById('loginMessage');
+  const items = getMergedCart();
+
+  container.innerHTML = '';
+  let total = 0;
+
+  if (items.length === 0) {
+    empty.style.display = 'block';
+    summary.style.display = 'none';
+    loginMsg.style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+
+  items.forEach((item, index) => {
+    const priceNum = parseFloat(item.price.replace('$', '').trim()) || 0;
+    const subtotal = priceNum * item.quantity;
+    total += subtotal;
+
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <img src="${item.image || 'https://via.placeholder.com/140x140/111/fff?text=Item'}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-details">Price: ${item.price}</div>
+        ${item.size ? `<div class="cart-item-details">Size: ${item.size}</div>` : ''}
+        <div class="cart-item-details">Quantity: ${item.quantity}</div>
+        <div class="cart-item-subtotal">Subtotal: $${subtotal.toFixed(2)}</div>
+        <button class="remove-btn" data-index="${index}">Remove</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  document.getElementById('cartTotal').textContent = `Total: $${total.toFixed(2)}`;
+  summary.style.display = 'block';
+
+  // Remove item
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const index = parseInt(btn.dataset.index);
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const itemToRemove = items[index];
+      cart = cart.filter(i => !(i.name === itemToRemove.name && i.size === itemToRemove.size));
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+      updateBadges();
+    });
+  });
+
+  // Checkout – require login
+  document.getElementById('checkoutBtn').onclick = () => {
+    if (!localStorage.getItem('isLoggedIn')) {
+      loginMsg.style.display = 'block';
+      summary.style.display = 'none';
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1500);
+    } else {
+      // Proceed to checkout (replace with real flow if needed)
+      alert('Proceeding to checkout...');
+      // window.location.href = 'checkout.html';
+    }
+  };
+}
+
+// Init
+updateBadges();
+renderCart();
+</script>
+</body>
+</html> 
