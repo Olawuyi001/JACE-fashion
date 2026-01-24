@@ -57,7 +57,17 @@
       transition:color 0.25s;
     }
     .nav-links a:hover { color:#ddd; }
-
+.nav-links.active {
+  display: flex !important;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.98);
+  padding: 20px 0;
+  z-index: 99;
+}
     .nav-icon {
       font-size:1.45rem;
       cursor:pointer;
@@ -395,6 +405,42 @@
       transition:all 0.3s; margin-left:8px;
     }
     .favourite-btn.active { color:#ff4d4d; }
+    /* Hide/show based on screen size */
+@media (max-width: 960px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: block !important;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border-bottom: 1px solid #222;
+  }
+  .back-home-link.mobile-only {
+    background: none;
+    padding: 14px 0;
+    font-weight: 500;
+    border-bottom: 1px solid #333;
+  }
+  .nav-links {
+    background: rgba(0,0,0,0.98);
+  }
+  .hamburger {
+    font-size: 2rem;
+    padding: 0 10px;
+  }
+}
+
+@media (min-width: 961px) {
+  .mobile-only {
+    display: none !important;
+  }
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -402,26 +448,31 @@
 <header>
   <div class="container">
     <nav>
-      <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
+  <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
 
-      <div class="nav-links">
-        <a href="signup.html">Join us</a>
-        <a href="login.html">Login</a>
-        <a href="about.html">About</a>
+  <div class="nav-links">
+    <!-- These appear in dropdown on mobile, hidden on desktop -->
+    <a href="index.html" class="back-home-link mobile-only">« BACK TO HOME</a>
+    <a href="cart.html" class="mobile-only">Cart 🛒</a>
+    <a href="favourites.html" class="mobile-only">Favorites ♡</a>
+    <a href="signup.html">Join us</a>
+    <a href="login.html">Login</a>
+    <a href="clothing.html">Collections</a>
+    <a href="about.html">About</a>
+  </div>
 
-        <!-- Cart & Favorites icons – placed at the far right -->
-        <a href="cart.html" class="nav-icon" title="Cart">
-          🛒
-          <span id="cartBadge" class="badge hidden">0</span>
-        </a>
-        <a href="favourites.html" class="nav-icon" title="Favorites">
-          ♡
-          <span id="favBadge" class="badge hidden">0</span>
-        </a>
-      </div>
+  <!-- These icons are visible on desktop, hidden on mobile -->
+  <div class="nav-icons desktop-only">
+    <a href="cart.html" class="nav-icon" title="Cart">
+      🛒 <span id="cartBadge" class="badge hidden">0</span>
+    </a>
+    <a href="favourites.html" class="nav-icon" title="Favorites">
+      ♡ <span id="favBadge" class="badge hidden">0</span>
+    </a>
+  </div>
 
-      <div class="hamburger">&#9776;</div>
-    </nav>
+  <div class="hamburger">☰</div>
+</nav>
   </div>
 </header>
 
@@ -1139,10 +1190,7 @@
       <div id="modalTotal" class="total-price">Total: $0</div>
 
       <div style="display:flex; align-items:center; justify-content:center; gap:30px; margin-top:20px; position:relative;">
-        <button id="modalAddBtn" class="add-btn">
-          <span class="default-text">Add to Cart</span>
-          <span class="message">Added to Cart</span>
-        </button>
+   <button id="modalAddBtn" class="add-btn">Add to Cart</button>
         <span id="favouriteBtn" class="favourite-btn" onclick="toggleFavourite()">♡</span>
         <span id="favMessage" style="position:absolute;left:50%;top:-50px;transform:translateX(-50%);opacity:0;color:#ff4d4d;font-size:0.9rem;background:rgba(0,0,0,0.8);padding:6px 12px;border-radius:6px;white-space:nowrap;transition:opacity 0.6s;pointer-events:none;z-index:10;">
           Added to Favorites
@@ -1224,6 +1272,12 @@ function openModal(name, priceStr, description, imageSrc) {
   updateTotalPrice();
 
   modal.style.display = 'flex';
+    updateFavoriteHeart();
+
+  // Also refresh heart when user picks a size
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', updateFavoriteHeart);
+  });
 }
 
 function updateTotalPrice() {
@@ -1274,8 +1328,8 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
   });
 });
 
-// Add to Cart button
-document.getElementById('modalAddBtn').onclick = () => {
+// Add to Cart button – clean text replacement
+document.getElementById('modalAddBtn').addEventListener('click', () => {
   if (!currentItem) return;
 
   if (!selectedSize) {
@@ -1283,6 +1337,7 @@ document.getElementById('modalAddBtn').onclick = () => {
     return;
   }
 
+  // Create the item to add to cart
   const cartItem = {
     ...currentItem,
     price: `$${basePrice.toFixed(2)}`,
@@ -1291,34 +1346,55 @@ document.getElementById('modalAddBtn').onclick = () => {
     addedAt: new Date().toISOString()
   };
 
-  addToCart(cartItem);
+  addToCart(cartItem);  // this function already exists in your code
 
+  // Change button appearance
   const btn = document.getElementById('modalAddBtn');
-  btn.classList.add('added');
-  setTimeout(() => btn.classList.remove('added'), 1800);
-};
+  const originalText = btn.textContent;  // remember "Add to Cart"
+
+  btn.textContent = "Added ✓";           // show success message
+  btn.style.backgroundColor = "#28a745"; // green success color
+  btn.style.color = "white";
+  btn.disabled = true;                   // prevent double clicks
+
+  // After 1.8 seconds, change back to normal
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.backgroundColor = "#fff";
+    btn.style.color = "#000";
+    btn.disabled = false;
+  }, 1800);  // 1800 ms = 1.8 seconds
+});
 
 // Favorite button (unchanged – already working)
-document.getElementById('favouriteBtn').onclick = () => {
+document.getElementById('favouriteBtn').addEventListener('click', () => {
   if (!currentItem) return;
 
-  addToFavorites({
-    ...currentItem,
-    price: `$${basePrice.toFixed(2)}`,
-    size: selectedSize || "N/A",
-    addedAt: new Date().toISOString()
-  });
+  // Add only if not already there
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const alreadySaved = favorites.some(f => 
+    f.name === currentItem.name && f.size === (selectedSize || 'N/A')
+  );
 
-  const heart = document.getElementById('favouriteBtn');
-  heart.textContent = '♥';
-  heart.classList.add('active');
-  document.getElementById('favMessage').style.opacity = '1';
+  if (!alreadySaved) {
+    addToFavorites({
+      ...currentItem,
+      price: `$${basePrice.toFixed(2)}`,
+      size: selectedSize || "N/A",
+      addedAt: new Date().toISOString()
+    });
+  }
+
+  // Update heart (turns/stays red)
+  updateFavoriteHeart();
+
+  // Show popup message for 2 seconds
+  const msg = document.getElementById('favMessage');
+  msg.style.opacity = '1';
   setTimeout(() => {
-    document.getElementById('favMessage').style.opacity = '0';
-    heart.textContent = '♡';
-    heart.classList.remove('active');
-  }, 2000);
-};
+    msg.style.opacity = '0';
+  }, 1800);
+});
 
 // Close modal on outside click
 modal.onclick = e => {
@@ -1368,6 +1444,27 @@ shopBtns.forEach(btn => {
     });
   });
 });
+// Check if current item is already favorited → update heart color
+function updateFavoriteHeart() {
+  if (!currentItem) return;
+
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const heart = document.getElementById('favouriteBtn');
+
+  // Check if this exact item (name + size) exists in favorites
+  const isFavorited = favorites.some(item => 
+    item.name === currentItem.name && 
+    item.size === (selectedSize || 'N/A')
+  );
+
+  if (isFavorited) {
+    heart.innerHTML = '♥';               // filled heart
+    heart.classList.add('active');       // red color (from your CSS)
+  } else {
+    heart.innerHTML = '♡';               // outline heart
+    heart.classList.remove('active');
+  }
+}
 </script>
 </body>
 </html>

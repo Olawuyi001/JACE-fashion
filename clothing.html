@@ -335,10 +335,7 @@
       <div id="modalTotal" class="total-price">Total: $0.00</div>
 
       <div style="display:flex; align-items:center; justify-content:center; gap:30px; margin-top:20px; position:relative;">
-        <button id="modalAddBtn" class="add-btn">
-          <span class="default-text">Add to Cart</span>
-          <span class="message">Added ✓</span>
-        </button>
+ <button id="modalAddBtn" class="add-btn">Add to Cart</button>
         <span id="favouriteBtn" class="favourite-btn">♡</span>
         <span id="favMessage" style="position:absolute; top:-40px; left:50%; transform:translateX(-50%); opacity:0; color:#ff4d4d; background:rgba(0,0,0,0.8); padding:6px 12px; border-radius:6px; white-space:nowrap; transition:opacity 0.6s; pointer-events:none;">
           Added to Favorites
@@ -418,6 +415,12 @@ function openModal(name, priceStr, desc = '', img = '') {
 
   modal.style.display = 'flex';
   console.log('Modal opened:', name, priceStr);
+    updateFavoriteHeart();
+
+  // Also refresh heart when user picks a size
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', updateFavoriteHeart);
+  });
 }
 
 function closeModal() {
@@ -453,63 +456,73 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
 });
 
 // Add to Cart – fixed and now clickable
-const addCartBtn = document.getElementById('modalAddBtn');
-if (addCartBtn) {
-  addCartBtn.addEventListener('click', () => {
-    console.log('Add to Cart clicked');
+// Add to Cart button – clean text replacement
+document.getElementById('modalAddBtn').addEventListener('click', () => {
+  if (!currentItem) return;
 
-    if (!currentItem) {
-      console.warn('No item selected');
-      return;
-    }
+  if (!selectedSize) {
+    alert("Please select a size first.");
+    return;
+  }
 
-    if (!selectedSize) {
-      alert('Please select a size first.');
-      return;
-    }
+  // Create the item to add to cart
+  const cartItem = {
+    ...currentItem,
+    price: `$${basePrice.toFixed(2)}`,
+    size: selectedSize,
+    quantity: currentQty,
+    addedAt: new Date().toISOString()
+  };
 
-    const item = {
-      ...currentItem,
-      price: `$${basePrice.toFixed(2)}`,
-      size: selectedSize,
-      quantity: currentQty,
-      addedAt: new Date().toISOString()
-    };
+  addToCart(cartItem);  // this function already exists in your code
 
-    addToCart(item);
+  // Change button appearance
+  const btn = document.getElementById('modalAddBtn');
+  const originalText = btn.textContent;  // remember "Add to Cart"
 
-    addCartBtn.classList.add('added');
-    setTimeout(() => addCartBtn.classList.remove('added'), 1800);
-  });
-} else {
-  console.error('Add to Cart button (#modalAddBtn) not found');
-}
+  btn.textContent = "Added ✓";           // show success message
+  btn.style.backgroundColor = "#28a745"; // green success color
+  btn.style.color = "white";
+  btn.disabled = true;                   // prevent double clicks
+
+  // After 1.8 seconds, change back to normal
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.backgroundColor = "#fff";
+    btn.style.color = "#000";
+    btn.disabled = false;
+  }, 1800);  // 1800 ms = 1.8 seconds
+});
 
 // Favorites heart
-const favHeart = document.getElementById('favouriteBtn');
-if (favHeart) {
-  favHeart.addEventListener('click', () => {
-    if (!currentItem) return;
+document.getElementById('favouriteBtn').addEventListener('click', () => {
+  if (!currentItem) return;
 
-    const item = {
+  // Add only if not already there
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const alreadySaved = favorites.some(f => 
+    f.name === currentItem.name && f.size === (selectedSize || 'N/A')
+  );
+
+  if (!alreadySaved) {
+    addToFavorites({
       ...currentItem,
       price: `$${basePrice.toFixed(2)}`,
-      size: selectedSize || 'N/A',
+      size: selectedSize || "N/A",
       addedAt: new Date().toISOString()
-    };
+    });
+  }
 
-    addToFavorites(item);
+  // Update heart (turns/stays red)
+  updateFavoriteHeart();
 
-    favHeart.textContent = '♥';
-    favHeart.classList.add('active');
-    document.getElementById('favMessage').style.opacity = '1';
-    setTimeout(() => {
-      document.getElementById('favMessage').style.opacity = '0';
-      favHeart.textContent = '♡';
-      favHeart.classList.remove('active');
-    }, 2000);
-  });
-}
+  // Show popup message for 2 seconds
+  const msg = document.getElementById('favMessage');
+  msg.style.opacity = '1';
+  setTimeout(() => {
+    msg.style.opacity = '0';
+  }, 1800);
+});
 
 // Open modal from shop items
 document.querySelectorAll('.shop-item').forEach(item => {
@@ -547,6 +560,27 @@ document.querySelectorAll('.shop-btn').forEach(btn => {
     });
   });
 });
+// Check if current item is already favorited → update heart color
+function updateFavoriteHeart() {
+  if (!currentItem) return;
+
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const heart = document.getElementById('favouriteBtn');
+
+  // Check if this exact item (name + size) exists in favorites
+  const isFavorited = favorites.some(item => 
+    item.name === currentItem.name && 
+    item.size === (selectedSize || 'N/A')
+  );
+
+  if (isFavorited) {
+    heart.innerHTML = '♥';               // filled heart
+    heart.classList.add('active');       // red color (from your CSS)
+  } else {
+    heart.innerHTML = '♡';               // outline heart
+    heart.classList.remove('active');
+  }
+}
 </script>
 </body>
 </html>
