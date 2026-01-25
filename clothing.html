@@ -733,6 +733,27 @@ function updateFavoriteHeart() {
     heart.classList.remove('active');
   }
 }
+// Hamburger menu toggle + close on outside click
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation(); // Prevent the click from immediately closing via document listener
+    navLinks.classList.toggle('active');
+    
+    // Optional: change icon to X when open
+    hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+  });
+
+  // Close dropdown when clicking anywhere outside menu or hamburger
+  document.addEventListener('click', function(e) {
+    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+      navLinks.classList.remove('active');
+      hamburger.textContent = '☰';
+    }
+  });
+}
 </script>
 </body>
 </html>

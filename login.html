@@ -269,6 +269,16 @@
     padding: 0;
   }
 }
+.nav-links {
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.nav-links.active {
+  opacity: 1;
+  transform: translateY(0);
+}
   </style>
 </head>
 <body>
@@ -334,10 +344,25 @@
 </footer>
 
 <script>
-// Hamburger Menu
-document.querySelector('.hamburger').addEventListener('click', () => {
-  document.querySelector('.nav-links').classList.toggle('active');
-});
+// Hamburger menu – open/close + close on outside click
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation(); // prevent closing immediately
+    navLinks.classList.toggle('active');
+    hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+  });
+
+  // Close when clicking anywhere outside the menu
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+      navLinks.classList.remove('active');
+      hamburger.textContent = '☰';
+    }
+  });
+}
 
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
