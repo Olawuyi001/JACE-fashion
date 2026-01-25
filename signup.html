@@ -160,32 +160,139 @@
     }
 
     footer { padding:60px 0 30px; text-align:center; opacity:0.8; }
+    .mobile-top-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;          /* space between BACK, cart, fav, hamburger */
+}
+
+
+  
+  /* Desktop layout – your original icons stay visible */
+  .nav-links {
+    display: flex !important;
+    position: static;
+    background: none;
+    padding: 0;
+  }
+  
+  .nav-links a {
+    padding: 0 12px;
+  }
+
+
+@media (max-width: 960px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.98);
+    padding: 20px 0;
+    z-index: 99;
+  }
+  
+  .nav-links.active {
+    display: flex !important;
+  }
+  
+  .hamburger {
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  
+  .back-home-link {
+    background: none;
+    font-weight: 500;
+  }
+}
+/* Always show right side bar */
+.mobile-top-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Mobile view: hide main links, show dropdown on hamburger */
+@media (max-width: 960px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.98);
+    padding: 20px 0;
+    z-index: 99;
+  }
+  
+  .nav-links.active {
+    display: flex !important;
+  }
+  
+  .hamburger {
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  
+  .back-home-link {
+    background: none;
+    font-weight: 500;
+  }
+}
+
+/* Desktop view: hide BACK TO HOME, show main links inline */
+@media (min-width: 961px) {
+  .back-home-link.mobile-only {
+    display: none !important;
+  }
+  
+  .nav-links {
+    display: flex !important;
+    align-items: center;
+    gap: 1.8rem;
+    position: static;
+    background: none;
+    padding: 0;
+  }
+}
   </style>
 </head>
 <body>
 
 <header>
   <div class="container">
-    <nav>
-      <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
+<nav>
+  <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
 
-      <div class="nav-links">
-        
-        <a href="index.html" class="back-home-link">« BACK TO HOME</a>
-        <a href="login.html">Login</a>
-        <a href="clothing.html">Collections</a>
-         <a href="about.html">About</a>
+  <!-- Main links first (visible on desktop, dropdown on mobile) -->
+  <div class="nav-links">
+    <a href="signup.html">Join us</a>
+    <a href="login.html">Login</a>
+    <a href="clothing.html">Collections</a>
+    <a href="about.html">About</a>
+  </div>
 
-        <a href="cart.html" class="nav-icon" title="Cart">
-          🛒 <span id="cartBadge" class="badge hidden">0</span>
-        </a>
-        <a href="favourites.html" class="nav-icon" title="Favorites">
-          ♡ <span id="favBadge" class="badge hidden">0</span>
-        </a>
-      </div>
-
-      <div class="hamburger">&#9776;</div>
-    </nav>
+  <!-- Icons and hamburger last (right side on desktop, mobile bar) -->
+  <div class="mobile-top-right">
+    <a href="index.html" class="back-home-link mobile-only">« BACK TO HOME</a>
+    
+    <a href="cart.html" class="nav-icon" title="Cart">
+      🛒 <span id="cartBadge" class="badge hidden">0</span>
+    </a>
+    
+    <a href="favourites.html" class="nav-icon" title="Favorites">
+      ♡ <span id="favBadge" class="badge hidden">0</span>
+    </a>
+    
+    <div class="hamburger">☰</div>
+  </div>
+</nav>
   </div>
 </header>
 

@@ -494,37 +494,112 @@
     font-weight: 500;
   }
 }
+/* Force mobile-top-right to always show on desktop and mobile */
+.mobile-top-right {
+  display: flex !important;
+  align-items: center;
+  gap: 20px; /* increase space if icons are too close */
+}
+
+/* Make sure icons are visible on desktop */
+@media (min-width: 961px) {
+  .mobile-top-right {
+    display: flex !important;
+  }
+  .back-home-link.mobile-only {
+    display: none !important; /* hide BACK on desktop if you want */
+  }
+}
+
+/* Make sure icons are not hidden by other rules */
+.nav-icon {
+  display: inline-block !important;
+  color: #fff;
+  font-size: 1.45rem;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Badge always visible when not hidden */
+.badge:not(.hidden) {
+  display: flex !important;
+}
+.mobile-top-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+@media (max-width: 960px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.98);
+    padding: 20px 0;
+    z-index: 99;
+  }
+  
+  .nav-links.active {
+    display: flex !important;
+  }
+  
+  .hamburger {
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  
+  .back-home-link {
+    background: none;
+    font-weight: 500;
+  }
+}
+
+@media (min-width: 961px) {
+  .back-home-link.mobile-only {
+    display: none !important;
+  }
+}
   </style>
 </head>
 <body>
 
 <header>
   <div class="container">
-  <nav>
+<nav>
   <div class="brand-text" onclick="window.location.href='index.html'">JACE VOGUE</div>
 
-  <!-- Visible on mobile top bar -->
-  <div class="mobile-top-right">
-       
-    <a href="cart.html" class="nav-icon mobile-only" title="Cart">
-      🛒 <span id="cartBadge" class="badge hidden">0</span>
-    </a>
-    
-    <a href="favourites.html" class="nav-icon mobile-only" title="Favorites">
-      ♡ <span id="favBadge" class="badge hidden">0</span>
-    </a>
-    
-    <div class="hamburger">☰</div>
-  </div>
-
-  <!-- Dropdown only – hidden on mobile top bar -->
+  <!-- Main links (visible on desktop, in dropdown on mobile) -->
   <div class="nav-links">
     <a href="signup.html">Join us</a>
     <a href="login.html">Login</a>
     <a href="clothing.html">Collections</a>
     <a href="about.html">About</a>
-    <a href="cart.html">🛒</a>
-    <a href="favourites.html">♡</a>
+  </div>
+
+  <!-- Right side: BACK (mobile only) + Cart + Fav + Hamburger -->
+  <div class="mobile-top-right">
+    <a href="index.html" class="back-home-link mobile-only">« BACK TO HOME</a>
+    
+    <a href="cart.html" class="nav-icon" title="Cart">
+      🛒 <span id="cartBadge" class="badge hidden">0</span>
+    </a>
+    
+    <a href="favourites.html" class="nav-icon" title="Favorites">
+      ♡ <span id="favBadge" class="badge hidden">0</span>
+    </a>
+    
+    <div class="hamburger">☰</div>
   </div>
 </nav>
   </div>
@@ -1283,23 +1358,41 @@ function updateBadges() {
 
 // Add to cart function
 function addToCart(item) {
+  console.log("addToCart called with item:", item);   // ← NEW
+
   let cart = JSON.parse(localStorage.getItem('cart') || '[]');
   cart.push(item);
   localStorage.setItem('cart', JSON.stringify(cart));
+  
+  console.log("Cart after save:", cart);              // ← NEW
+  console.log("Saved to localStorage. Current cart length:", cart.length);
+  
   updateBadges();
 }
 
 // Add to favorites function
 function addToFavorites(item) {
+  console.log("addToFavorites called with item:", item);   // ← NEW – check if function is called
+
   let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-  const exists = favorites.some(f => f.name === item.name && f.size === item.size);
+  
+  // Check if this exact item (name + size) already exists
+  const exists = favorites.some(f => 
+    f.name === item.name && f.size === item.size
+  );
+
   if (!exists) {
     favorites.push(item);
     localStorage.setItem('favorites', JSON.stringify(favorites));
-    updateBadges();
+    
+    console.log("Favorites after save:", favorites);           // ← NEW
+    console.log("Saved to localStorage. Current favorites length:", favorites.length);
+  } else {
+    console.log("Item already in favorites – not added again");
   }
-}
 
+  updateBadges();
+}
 // Modal logic - with FIXED size, quantity & total price
 const modal = document.getElementById('productModal');
 let currentItem = null;
@@ -1382,43 +1475,7 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
   });
 });
 
-// Add to Cart button – clean text replacement
-document.getElementById('modalAddBtn').addEventListener('click', () => {
-  if (!currentItem) return;
 
-  if (!selectedSize) {
-    alert("Please select a size first.");
-    return;
-  }
-
-  // Create the item to add to cart
-  const cartItem = {
-    ...currentItem,
-    price: `$${basePrice.toFixed(2)}`,
-    size: selectedSize,
-    quantity: currentQty,
-    addedAt: new Date().toISOString()
-  };
-
-  addToCart(cartItem);  // this function already exists in your code
-
-  // Change button appearance
-  const btn = document.getElementById('modalAddBtn');
-  const originalText = btn.textContent;  // remember "Add to Cart"
-
-  btn.textContent = "Added ✓";           // show success message
-  btn.style.backgroundColor = "#28a745"; // green success color
-  btn.style.color = "white";
-  btn.disabled = true;                   // prevent double clicks
-
-  // After 1.8 seconds, change back to normal
-  setTimeout(() => {
-    btn.textContent = originalText;
-    btn.style.backgroundColor = "#fff";
-    btn.style.color = "#000";
-    btn.disabled = false;
-  }, 1800);  // 1800 ms = 1.8 seconds
-});
 
 // Favorite button (unchanged – already working)
 document.getElementById('favouriteBtn').addEventListener('click', () => {
@@ -1519,6 +1576,72 @@ function updateFavoriteHeart() {
     heart.classList.remove('active');
   }
 }
+// Event delegation – listens on the whole document for clicks inside the modal
+document.addEventListener('click', function(e) {
+  const target = e.target;
+
+  // Handle Add to Cart click
+  if (target.id === 'modalAddBtn' || target.closest('#modalAddBtn')) {
+    if (!currentItem) return;
+
+    if (!selectedSize) {
+      alert("Please select a size first.");
+      return;
+    }
+
+    const cartItem = {
+      ...currentItem,
+      price: `$${basePrice.toFixed(2)}`,
+      size: selectedSize,
+      quantity: currentQty,
+      addedAt: new Date().toISOString()
+    };
+
+    addToCart(cartItem);
+
+    const btn = document.getElementById('modalAddBtn');
+    const originalText = btn.textContent;
+
+    btn.textContent = "Added ✓";
+    btn.style.backgroundColor = "#28a745";
+    btn.style.color = "white";
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.backgroundColor = "#fff";
+      btn.style.color = "#000";
+      btn.disabled = false;
+    }, 1800);
+  }
+
+  // Handle Favorite heart click
+  if (target.id === 'favouriteBtn' || target.closest('#favouriteBtn')) {
+    if (!currentItem) return;
+
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const alreadySaved = favorites.some(f => 
+      f.name === currentItem.name && f.size === (selectedSize || 'N/A')
+    );
+
+    if (!alreadySaved) {
+      addToFavorites({
+        ...currentItem,
+        price: `$${basePrice.toFixed(2)}`,
+        size: selectedSize || "N/A",
+        addedAt: new Date().toISOString()
+      });
+    }
+
+    updateFavoriteHeart();
+
+    const msg = document.getElementById('favMessage');
+    msg.style.opacity = '1';
+    setTimeout(() => {
+      msg.style.opacity = '0';
+    }, 1800);
+  }
+});
 </script>
 </body>
 </html>
