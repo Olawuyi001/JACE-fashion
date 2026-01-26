@@ -331,13 +331,11 @@
   <div class="nav-links">
     <a href="signup.html">Join us</a>
     <a href="login.html">Login</a>
-    <a href="clothing.html">Collections</a>
     <a href="about.html">About</a>
   </div>
 
   <!-- Right side: BACK (mobile only) + Cart + Fav + Hamburger -->
   <div class="mobile-top-right">
-    <a href="index.html" class="back-home-link mobile-only">« BACK TO HOME</a>
     
     <a href="cart.html" class="nav-icon" title="Cart">
       🛒 <span id="cartBadge" class="badge hidden">0</span>
@@ -733,27 +731,39 @@ function updateFavoriteHeart() {
     heart.classList.remove('active');
   }
 }
-// Hamburger menu toggle + close on outside click
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+// Wait for DOM to be fully loaded before attaching listeners
+document.addEventListener('DOMContentLoaded', function() {
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
 
-if (hamburger && navLinks) {
+  if (!hamburger || !navLinks) {
+    console.warn('Hamburger or nav-links not found – check HTML IDs/classes');
+    return;
+  }
+
+  // Toggle on hamburger click
   hamburger.addEventListener('click', function(e) {
-    e.stopPropagation(); // Prevent the click from immediately closing via document listener
+    e.stopPropagation();
     navLinks.classList.toggle('active');
-    
-    // Optional: change icon to X when open
     hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
   });
 
-  // Close dropdown when clicking anywhere outside menu or hamburger
+  // Close when clicking outside menu or hamburger
   document.addEventListener('click', function(e) {
     if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
       navLinks.classList.remove('active');
       hamburger.textContent = '☰';
     }
   });
-}
+
+  // Close when clicking any link inside the dropdown (important for navigation)
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function() {
+      navLinks.classList.remove('active');
+      hamburger.textContent = '☰';
+    });
+  });
+});
 </script>
 </body>
 </html>
