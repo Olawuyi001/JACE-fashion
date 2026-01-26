@@ -496,286 +496,274 @@
 </div>
 
 <script>
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // ────────────────────────────────────────────────
-  // Hamburger Menu – fixed: no auto-open, closes on outside tap & link click
+// ────────────────────────────────────────────────
+// Cart & Favorites badge updater
+function updateBadges() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cartBadge = document.getElementById('cartBadge');
+  if (cartBadge) {
+    cartBadge.textContent = cart.length;
+    cartBadge.classList.toggle('hidden', cart.length === 0);
+  }
+
+  const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const favBadge = document.getElementById('favBadge');
+  if (favBadge) {
+    favBadge.textContent = favs.length;
+    favBadge.classList.toggle('hidden', favs.length === 0);
+  }
+}
+
+// Add to cart
+function addToCart(item) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.push(item);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateBadges();
+  console.log('Added to cart:', item);
+}
+
+// Add to favorites
+function addToFavorites(item) {
+  let favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const exists = favs.some(f => f.name === item.name && f.size === item.size);
+  if (!exists) {
+    favs.push(item);
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    updateBadges();
+    console.log('Added to favorites:', item);
+  }
+}
+
+// Modal state
+let currentItem = null;
+let selectedSize = null;
+let currentQty = 1;
+let basePrice = 0;
+
+function openModal(name, priceStr, desc = '', img = '') {
+  currentItem = { name, description: desc, image: img };
+
+  basePrice = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
+
+  const modal = document.getElementById('productModal');
+  if (!modal) {
+    console.error('Modal #productModal not found');
+    return;
+  }
+
+  document.getElementById('modalImage').src = img || 'https://via.placeholder.com/300';
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalDescription').textContent = desc || 'Timeless luxury piece.';
+  document.getElementById('modalPrice').textContent = priceStr;
+
+  selectedSize = null;
+  currentQty = 1;
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.qty-display').textContent = '1';
+  document.getElementById('modalTotal').textContent = `Total: $${basePrice.toFixed(2)}`;
+
+  modal.style.display = 'flex';
+  console.log('Modal opened:', name, priceStr);
+    updateFavoriteHeart();
+
+  // Also refresh heart when user picks a size
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', updateFavoriteHeart);
+  });
+}
+
+function closeModal() {
+  const modal = document.getElementById('productModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function updateTotal() {
+  const total = basePrice * currentQty;
+  const totalEl = document.getElementById('modalTotal');
+  if (totalEl) totalEl.textContent = `Total: $${total.toFixed(2)}`;
+}
+
+// Size buttons
+document.querySelectorAll('.size-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedSize = btn.textContent;
+    console.log('Size:', selectedSize);
+  });
+});
+
+// Quantity buttons
+document.querySelectorAll('.qty-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.textContent === '+') currentQty++;
+    else if (btn.textContent === '-' && currentQty > 1) currentQty--;
+    document.querySelector('.qty-display').textContent = currentQty;
+    updateTotal();
+    console.log('Qty:', currentQty);
+  });
+});
+
+// Add to Cart – fixed and now clickable
+// Add to Cart button – clean text replacement
+document.getElementById('modalAddBtn').addEventListener('click', () => {
+  if (!currentItem) return;
+
+  if (!selectedSize) {
+    alert("Please select a size first.");
+    return;
+  }
+
+  // Create the item to add to cart
+  const cartItem = {
+    ...currentItem,
+    price: `$${basePrice.toFixed(2)}`,
+    size: selectedSize,
+    quantity: currentQty,
+    addedAt: new Date().toISOString()
+  };
+
+  addToCart(cartItem);  // this function already exists in your code
+
+  // Change button appearance
+  const btn = document.getElementById('modalAddBtn');
+  const originalText = btn.textContent;  // remember "Add to Cart"
+
+  btn.textContent = "Added ✓";           // show success message
+  btn.style.backgroundColor = "#28a745"; // green success color
+  btn.style.color = "white";
+  btn.disabled = true;                   // prevent double clicks
+
+  // After 1.8 seconds, change back to normal
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.backgroundColor = "#fff";
+    btn.style.color = "#000";
+    btn.disabled = false;
+  }, 1800);  // 1800 ms = 1.8 seconds
+});
+
+// Favorites heart
+document.getElementById('favouriteBtn').addEventListener('click', () => {
+  if (!currentItem) return;
+
+  // Add only if not already there
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const alreadySaved = favorites.some(f => 
+    f.name === currentItem.name && f.size === (selectedSize || 'N/A')
+  );
+
+  if (!alreadySaved) {
+    addToFavorites({
+      ...currentItem,
+      price: `$${basePrice.toFixed(2)}`,
+      size: selectedSize || "N/A",
+      addedAt: new Date().toISOString()
+    });
+  }
+
+  // Update heart (turns/stays red)
+  updateFavoriteHeart();
+
+  // Show popup message for 2 seconds
+  const msg = document.getElementById('favMessage');
+  msg.style.opacity = '1';
+  setTimeout(() => {
+    msg.style.opacity = '0';
+  }, 1800);
+});
+
+// Open modal from shop items
+document.querySelectorAll('.shop-item').forEach(item => {
+  item.addEventListener('click', e => {
+    if (e.target.closest('a') || e.target.closest('button')) return;
+
+    const name = item.querySelector('.shop-item-name')?.textContent.trim() || 'Item';
+    const price = item.querySelector('.shop-item-price')?.textContent.trim() || '$0';
+    const img = item.querySelector('img')?.src || '';
+
+    openModal(name, price, '', img);
+  });
+});
+
+// Close modal on outside click
+const modalElement = document.getElementById('productModal');
+if (modalElement) {
+  modalElement.addEventListener('click', e => {
+    if (e.target === modalElement) closeModal();
+  });
+}
+
+// Initialize
+updateBadges();
+console.log('Collections page loaded. Cart count:', JSON.parse(localStorage.getItem('cart') || '[]').length);
+
+// Shop category filtering
+document.querySelectorAll('.shop-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.shop-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.category;
+    document.querySelectorAll('.shop-item').forEach(el => {
+      el.style.display = el.dataset.category === cat ? '' : 'none';
+    });
+  });
+});
+// Check if current item is already favorited → update heart color
+function updateFavoriteHeart() {
+  if (!currentItem) return;
+
+  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const heart = document.getElementById('favouriteBtn');
+
+  // Check if this exact item (name + size) exists in favorites
+  const isFavorited = favorites.some(item => 
+    item.name === currentItem.name && 
+    item.size === (selectedSize || 'N/A')
+  );
+
+  if (isFavorited) {
+    heart.innerHTML = '♥';               // filled heart
+    heart.classList.add('active');       // red color (from your CSS)
+  } else {
+    heart.innerHTML = '♡';               // outline heart
+    heart.classList.remove('active');
+  }
+}
+// Wait for DOM to be fully loaded before attaching listeners
+document.addEventListener('DOMContentLoaded', function() {
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
 
-  if (hamburger && navLinks) {
-    // Ensure menu is CLOSED on page load
-    navLinks.classList.remove('active');
-    hamburger.textContent = '☰';
-
-    // Toggle only on user tap
-    hamburger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navLinks.classList.toggle('active');
-      hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-        navLinks.classList.remove('active');
-        hamburger.textContent = '☰';
-      }
-    });
-
-    // Close when clicking any link inside dropdown
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.textContent = '☰';
-      });
-    });
+  if (!hamburger || !navLinks) {
+    console.warn('Hamburger or nav-links not found – check HTML IDs/classes');
+    return;
   }
 
-  // ────────────────────────────────────────────────
-  // Navbar scroll effect
-  window.addEventListener('scroll', () => {
-    document.querySelector('header').classList.toggle('scrolled', window.scrollY > 80);
+  // Toggle on hamburger click
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    navLinks.classList.toggle('active');
+    hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
   });
 
-  // ────────────────────────────────────────────────
-  // Cart & Favorites badge updater
-  function updateBadges() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
-
-    const cartBadge = document.getElementById('cartBadge');
-    if (cartBadge) {
-      cartBadge.textContent = cart.length;
-      cartBadge.classList.toggle('hidden', cart.length === 0);
+  // Close when clicking outside menu or hamburger
+  document.addEventListener('click', function(e) {
+    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+      navLinks.classList.remove('active');
+      hamburger.textContent = '☰';
     }
-
-    const favBadge = document.getElementById('favBadge');
-    if (favBadge) {
-      favBadge.textContent = favs.length;
-      favBadge.classList.toggle('hidden', favs.length === 0);
-    }
-  }
-
-  // ────────────────────────────────────────────────
-  // Add to cart
-  function addToCart(item) {
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    cart.push(item);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateBadges();
-    console.log('Added to cart:', item);
-  }
-
-  // ────────────────────────────────────────────────
-  // Add to favorites
-  function addToFavorites(item) {
-    let favs = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const exists = favs.some(f => f.name === item.name && f.size === item.size);
-    if (!exists) {
-      favs.push(item);
-      localStorage.setItem('favorites', JSON.stringify(favs));
-      updateBadges();
-      console.log('Added to favorites:', item);
-    }
-  }
-
-  // ────────────────────────────────────────────────
-  // Modal state
-  let currentItem = null;
-  let selectedSize = null;
-  let currentQty = 1;
-  let basePrice = 0;
-
-  function openModal(name, priceStr, desc = '', img = '') {
-    currentItem = { name, description: desc, image: img };
-
-    basePrice = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
-
-    const modal = document.getElementById('productModal');
-    if (!modal) {
-      console.error('Modal #productModal not found');
-      return;
-    }
-
-    document.getElementById('modalImage').src = img || 'https://via.placeholder.com/300';
-    document.getElementById('modalName').textContent = name;
-    document.getElementById('modalDescription').textContent = desc || 'Timeless luxury piece.';
-    document.getElementById('modalPrice').textContent = priceStr;
-
-    selectedSize = null;
-    currentQty = 1;
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.qty-display').textContent = '1';
-    document.getElementById('modalTotal').textContent = `Total: $${basePrice.toFixed(2)}`;
-
-    modal.style.display = 'flex';
-
-    // Update heart state
-    updateFavoriteHeart();
-
-    // Refresh heart when size changes
-    document.querySelectorAll('.size-btn').forEach(btn => {
-      btn.addEventListener('click', updateFavoriteHeart);
-    });
-  }
-
-  function closeModal() {
-    const modal = document.getElementById('productModal');
-    if (modal) modal.style.display = 'none';
-  }
-
-  function updateTotal() {
-    const total = basePrice * currentQty;
-    const totalEl = document.getElementById('modalTotal');
-    if (totalEl) totalEl.textContent = `Total: $${total.toFixed(2)}`;
-  }
-
-  // ────────────────────────────────────────────────
-  // Size buttons
-  document.querySelectorAll('.size-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      selectedSize = btn.textContent;
-    });
   });
 
-  // ────────────────────────────────────────────────
-  // Quantity buttons
-  document.querySelectorAll('.qty-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.textContent === '+') currentQty++;
-      else if (btn.textContent === '-' && currentQty > 1) currentQty--;
-      document.querySelector('.qty-display').textContent = currentQty;
-      updateTotal();
-    });
-  });
-
-  // ────────────────────────────────────────────────
-  // Add to Cart – clean text replacement
-  document.getElementById('modalAddBtn').addEventListener('click', () => {
-    if (!currentItem) return;
-
-    if (!selectedSize) {
-      alert("Please select a size first.");
-      return;
-    }
-
-    const cartItem = {
-      ...currentItem,
-      price: `$${basePrice.toFixed(2)}`,
-      size: selectedSize,
-      quantity: currentQty,
-      addedAt: new Date().toISOString()
-    };
-
-    addToCart(cartItem);
-
-    const btn = document.getElementById('modalAddBtn');
-    const originalText = btn.textContent;
-
-    btn.textContent = "Added ✓";
-    btn.style.backgroundColor = "#28a745";
-    btn.style.color = "white";
-    btn.disabled = true;
-
-    setTimeout(() => {
-      btn.textContent = originalText;
-      btn.style.backgroundColor = "#fff";
-      btn.style.color = "#000";
-      btn.disabled = false;
-    }, 1800);
-  });
-
-  // ────────────────────────────────────────────────
-  // Favorites heart
-  document.getElementById('favouriteBtn').addEventListener('click', () => {
-    if (!currentItem) return;
-
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const alreadySaved = favorites.some(f => 
-      f.name === currentItem.name && f.size === (selectedSize || 'N/A')
-    );
-
-    if (!alreadySaved) {
-      addToFavorites({
-        ...currentItem,
-        price: `$${basePrice.toFixed(2)}`,
-        size: selectedSize || "N/A",
-        addedAt: new Date().toISOString()
-      });
-    }
-
-    updateFavoriteHeart();
-
-    const msg = document.getElementById('favMessage');
-    msg.style.opacity = '1';
-    setTimeout(() => {
-      msg.style.opacity = '0';
-    }, 1800);
-  });
-
-  // ────────────────────────────────────────────────
-  // Open modal from shop items
-  document.querySelectorAll('.shop-item').forEach(item => {
-    item.addEventListener('click', e => {
-      if (e.target.closest('a') || e.target.closest('button')) return;
-
-      const name = item.querySelector('.shop-item-name')?.textContent.trim() || 'Item';
-      const price = item.querySelector('.shop-item-price')?.textContent.trim() || '$0';
-      const img = item.querySelector('img')?.src || '';
-
-      openModal(name, price, '', img);
-    });
-  });
-
-  // Close modal on outside click
-  const modalElement = document.getElementById('productModal');
-  if (modalElement) {
-    modalElement.addEventListener('click', e => {
-      if (e.target === modalElement) closeModal();
-    });
-  }
-
-  // ────────────────────────────────────────────────
-  // Check if current item is favorited
-  function updateFavoriteHeart() {
-    if (!currentItem) return;
-
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const heart = document.getElementById('favouriteBtn');
-
-    const isFavorited = favorites.some(item => 
-      item.name === currentItem.name && 
-      item.size === (selectedSize || 'N/A')
-    );
-
-    heart.innerHTML = isFavorited ? '♥' : '♡';
-    heart.classList.toggle('active', isFavorited);
-  }
-
-  // ────────────────────────────────────────────────
-  // Shop category filtering
-  document.querySelectorAll('.shop-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.shop-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.dataset.category;
-      document.querySelectorAll('.shop-item').forEach(el => {
-        el.style.display = el.dataset.category === cat ? '' : 'none';
-      });
-    });
-  });
-
-  // ────────────────────────────────────────────────
-  // Initialize on load
-  updateBadges();
-  console.log('Collections page loaded. Cart count:', JSON.parse(localStorage.getItem('cart') || '[]').length);
-}); link.addEventListener('click', function() {
+  // Close when clicking any link inside the dropdown (important for navigation)
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function() {
       navLinks.classList.remove('active');
       hamburger.textContent = '☰';
     });
+  });
+});
 </script>
 </body>
 </html>
