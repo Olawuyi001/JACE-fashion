@@ -180,188 +180,54 @@
 }
 
 
-  /* Desktop layout – your original icons stay visible */
-  .nav-links {
-    display: flex !important;
-    position: static;
-    background: none;
-    padding: 0;
-  }
-  
-  .nav-links a {
-    padding: 0 12px;
-  }
+  /* ================= NAV (MOBILE FIRST) ================= */
 
-@media (max-width: 960px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.98);
-    padding: 20px 0;
-    z-index: 99;
-  }
-  
-  .nav-links.active {
-    display: flex !important;
-  }
-  
-  .hamburger {
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0 10px;
-  }
-  
-  .back-home-link {
-    background: none;
-    font-weight: 500;
-  }
-}
-.mobile-top-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
+/* HIDE MENU BY DEFAULT */
 .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1.8rem;
-}
-
-@media (max-width: 960px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.98);
-    padding: 20px 0;
-    z-index: 99;
-  }
-  
-  .nav-links.active {
-    display: flex !important;
-  }
-  
-  .hamburger {
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0 10px;
-  }
-  
-  .back-home-link {
-    background: none;
-    font-weight: 500;
-  }
-}
-
-@media (min-width: 961px) {
-  .back-home-link.mobile-only {
-    display: none !important;
-  }
-}
-/* Always show right side bar */
-.mobile-top-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-/* Mobile view: hide main links, show dropdown on hamburger */
-@media (max-width: 960px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.98);
-    padding: 20px 0;
-    z-index: 99;
-  }
-  
-  .nav-links.active {
-    display: flex !important;
-  }
-  
-  .hamburger {
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0 10px;
-  }
-  
-  .back-home-link {
-    background: none;
-    font-weight: 500;
-  }
-}
-
-/* Desktop view: hide BACK TO HOME, show main links inline */
-@media (min-width: 961px) {
-  .back-home-link.mobile-only {
-    display: none !important;
-  }
-  
-  .nav-links {
-    display: flex !important;
-    align-items: center;
-    gap: 1.8rem;
-    position: static;
-    background: none;
-    padding: 0;
-  }
-}
-/* NAV BASE */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1.8rem;
-}
-
-.hamburger {
   display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.98);
+  padding: 20px 0;
+  z-index: 99;
+}
+
+/* SHOW WHEN ACTIVE */
+.nav-links.active {
+  display: flex;
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: block;
   font-size: 2rem;
   cursor: pointer;
   color: #fff;
 }
 
-/* MOBILE */
-@media (max-width: 960px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.98);
-    padding: 20px 0;
-    z-index: 99;
-  }
-
-  .nav-links.active {
-    display: flex;
-  }
+/* RIGHT ICONS */
+.mobile-top-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-/* DESKTOP */
+/* ================= DESKTOP ================= */
 @media (min-width: 961px) {
+  .hamburger {
+    display: none;
+  }
+
   .nav-links {
     display: flex;
     position: static;
+    flex-direction: row;
     background: none;
     padding: 0;
+    gap: 1.8rem;
   }
 }
   </style>
@@ -777,37 +643,23 @@ function updateFavoriteHeart() {
     heart.classList.remove('active');
   }
 }
-// Wait for DOM to be fully loaded before attaching listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
 
-  if (!hamburger || !navLinks) {
-    console.warn('Hamburger or nav-links not found – check HTML IDs/classes');
-    return;
-  }
+  navLinks.classList.remove('active'); // FORCE CLOSED ON LOAD
 
-  // Toggle on hamburger click
-  hamburger.addEventListener('click', function(e) {
+  hamburger.addEventListener('click', function (e) {
     e.stopPropagation();
     navLinks.classList.toggle('active');
     hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
   });
 
-  // Close when clicking outside menu or hamburger
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', function (e) {
     if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
       navLinks.classList.remove('active');
       hamburger.textContent = '☰';
     }
-  });
-
-  // Close when clicking any link inside the dropdown (important for navigation)
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', function() {
-      navLinks.classList.remove('active');
-      hamburger.textContent = '☰';
-    });
   });
 });
 </script>
