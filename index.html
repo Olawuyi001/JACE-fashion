@@ -77,22 +77,26 @@
     }
     .nav-icon:hover { color:#ddd; }
 
-    .badge {
-      position:absolute;
-      top:-10px;
-      right:-10px;
-      background:#ff4d4d;
-      color:white;
-      font-size:0.68rem;
-      font-weight:bold;
-      min-width:18px;
-      height:18px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0 4px;
-    }
+ .badge {
+  position: absolute;
+  top: 6px;                  /* vertical position on icon — try -4 to -8 */
+  right: -2px;                /* horizontal position on icon — try -4 to -8 */
+  background: #ff4d4d;
+  color: white;
+  font-size: 11px;            /* exact pixel size often centers better than rem */
+  font-weight: bold;
+  width: 18px;                /* exact circle size */
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  padding: 0;                 /* no padding = no shift */
+  box-shadow: 0 0 6px rgba(255,77,77,0.6);
+  pointer-events: none;
+  text-align: center;
+  line-height: 18px;          /* must match height */
+}
     .badge.hidden { display:none; }
 
     .hamburger { display:none; font-size:1.8rem; cursor:pointer; color:#fff; }
@@ -592,12 +596,14 @@
   
     
     <a href="cart.html" class="nav-icon" title="Cart">
-      🛒 <span id="cartBadge" class="badge hidden">0</span>
-    </a>
-    
-    <a href="favourites.html" class="nav-icon" title="Favorites">
-      ♡ <span id="favBadge" class="badge hidden">0</span>
-    </a>
+  <img src="cart-icon.png" alt="Cart" style="width:28px; height:28px; vertical-align:middle;">
+  <span id="cartBadge" class="badge hidden">0</span>
+</a>
+
+<a href="favourites.html" class="nav-icon" title="Favorites">
+  <img src="heart-icon.png" alt="Favorites" style="width:28px; height:28px; vertical-align:middle;">
+  <span id="favBadge" class="badge hidden">0</span>
+</a>
     
     <div class="hamburger">☰</div>
   </div>
